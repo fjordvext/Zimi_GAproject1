@@ -47,7 +47,7 @@ You cannot use:
   - Wireframes
   - How-to-use instructions
   - Unsolved problems
-- An **issue ticket** created on **this repository** that has a link to your GitHub repository and your deployed game.
+- An [**issue ticket** created on **this repository**](https://git.generalassemb.ly/wdi-nyc-delorean/PROJECT_01-Game/issues/new) that has a link to your GitHub repository and your deployed game.
 
 ---
 
