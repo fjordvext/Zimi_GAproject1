@@ -28,6 +28,7 @@ Your app must:
 - Use **adaptive design** and media queries for HTML and CSS (adhere to best practices)
 - Be hosted on **Github.com**, NOT Github Enterprise.
 
+
 You cannot use:
 
 - **External libraries without pre-approval**, except jQuery and FontAwesome. This includes things like D3, Bootstrap, etc.
@@ -46,8 +47,8 @@ You cannot use:
   - Wireframes
   - How-to-use instructions
   - Unsolved problems
-
 ---
+- An **issue ticket** created on **this repository** that has a link to your GitHub repository and your deployed game.
 
 ### Suggested Ways to Get Started
 
@@ -87,15 +88,15 @@ Make a one player game where people down on their luck can lose all their money 
 
 ### Project Feedback + Evaluation
 
-- __Project Workflow__: Did you complete the user stories, wireframes as specified above? Did you use source control (Git) as expected for the phase of the program you’re in (detailed above)?
+- __Project Workflow__: Did you complete the user stories, wireframes as specified above? Did you use source control (Git) as expected for the phase of the program you’re in (detailed above)? How does your commit history look?
 
 - __Technical Requirements__: Did you deliver a project that met all the technical requirements? Given what the class has covered so far, did you build something that was reasonably complex?
 
-- __Creativity__: Did you added a personal spin or creative element into your project submission?
+- __Creativity__: Did you added a personal spin or creative element into your project submission? This includes design and styling considerations.
 
 - __Code Quality__: Did you follow code style guidance and best practices covered in class, such as spacing, modularity, and semantic naming? Did you comment your code as your instructors have in class?
 
-- __Deployment__: Did you deploy your application to a public url using GitHub Pages?
+- __Deployment__: Did you deploy your application to a public url using GitHub Pages? (Go to settings and set [this option](./assets/gh-pages.png).)
 
 - __Presentation__: Did you present your game, your code, and your project-making experience clearly and effectively to the class?
 
