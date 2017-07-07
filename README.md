@@ -11,6 +11,17 @@ Everyone will get a chance to **be creative**, and work through some really **to
 
 **You will be working individually for this project**, but we'll be guiding you along the process and helping as you go. Show us what you've got!
 
+---
+
+### Timeline
+
+| Date        | Event                                                                                                                                                                                                                         |
+|-------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 7/12        | Project Approvals<br/> You need to have wireframes and a filled-out [project proposal template](./proposal-template.md).                                                                                                      |
+| 7/13 - 7/14 | Independent Work<br/> You'll work here at GA and have access to the instructional team for support. Your squad leader will be your point of contact for all issues and will meet with you 1:1 at least once during this time. |
+| 7/15 - 7/16 | Independent Work<br/> Weekend!!! Remember, the TAs will be here on Saturday.                                                                                                                                                  |
+| 7/17        | Project Presentations<br/> Get ready to present your amazing game!                                                                                                                                                            |
+
 
 ---
 
