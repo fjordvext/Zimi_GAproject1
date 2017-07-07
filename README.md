@@ -87,6 +87,15 @@ Users will take turns filling boxes in a grid and checking for a win condition. 
 ##### Blackjack [Challenging]
 Make a one player game where people down on their luck can lose all their money by guessing which card the computer will deal next!
 
+Some other things we've seen over the years:
+
+- Space Invaders
+- Slot Machine
+- Battleship
+- Replicas of old DOS games
+- Jeopardy / Trivia
+- Checkers
+
 ---
 
 ### Useful Resources
