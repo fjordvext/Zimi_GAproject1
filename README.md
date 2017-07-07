@@ -3,7 +3,7 @@
 
 ### Overview
 
-### Due Sunday at 11pm
+### Due Monday, 7/17, at 9AM
 
 For the first project, we're doing something fun - **a game!**
 
