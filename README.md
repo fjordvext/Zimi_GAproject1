@@ -3,7 +3,7 @@
 
 ### Overview
 
-### Due Monday, 7/17, at 9AM
+### Due Thursday, 10/12, at 10AM
 
 For the first project, we're doing something fun - **a game!**
 
@@ -17,10 +17,10 @@ Everyone will get a chance to **be creative**, and work through some really **to
 
 | Date        | Event                                                                                                                                                                                                                         |
 |-------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 7/12        | **Project Approvals**<br/> You need to have wireframes and a filled-out [project proposal template](./proposal-template.md).                                                                                                      |
-| 7/13-7/14 | **Independent Work**<br/> You'll work here at GA and have access to the instructional team for support. Your squad leader will be your point of contact for all issues and will meet with you 1:1 at least once during this time. |
-| 7/15-7/16 | **Independent Work**<br/> Weekend!!! Remember, the TAs will be here on Saturday.                                                                                                                                                  |
-| 7/17        | **Project Presentations**<br/> Get ready to present your amazing game!                                                                                                                                                            |
+| 10/6        | **Project Approvals**<br/> You need to have wireframes and a filled-out [project proposal template](./proposal-template.md).                                                                                                      |
+| 10/6-10/9 | **Independent Work**<br/> Weekend!!! Remember, the TAs will be here on Saturday. |
+| 10/10-10/11 | **Independent Work**<br/> You'll work here at GA and have access to the instructional team for support. Your squad leader will be your point of contact for all issues and will meet with you 1:1 at least once during this time.                                                                                                                                                 |
+| 10/12        | **Project Presentations**<br/> Get ready to present your amazing game!                                                                                                                                                            |
 
 
 ---
@@ -32,10 +32,10 @@ Your app must:
 - **Render the game in the browser**
 - **Design and implement logic for winning** and **visually display a win or loss state of which player won in a 2 player game (if the game is two-player)**
 - **Include separate HTML / CSS / JavaScript files**
-- **Make use of object prototypes** - a good approach to this is to begin making the game and then to look for ways to refactor it to use prototypes in at least one case
+- **Make use of object prototypes** - a good approach to this is to begin making the game and then to look for ways to refactor it to use prototypes in at least one case.
 - Use the **KISS (Keep It Simple Stupid)** and **DRY (Don't Repeat Yourself)** principles
 - Use **Vanilla JavaScript** or **jQuery** for **DOM manipulation**
-- **Deploy your game online**, where the rest of the world can access it
+- **Deploy your game online**, where the rest of the world can access it. (Use either BitBalloon or GitHub Pages!)
 - Use **adaptive design** and media queries for HTML and CSS (adhere to best practices)
 - Be hosted on **Github.com**, NOT Github Enterprise.
 
@@ -58,7 +58,7 @@ You cannot use:
   - Wireframes
   - How-to-use instructions
   - Unsolved problems
-- An [**issue ticket** created on **this repository**](https://git.generalassemb.ly/wdi-nyc-delorean/PROJECT_01-Game/issues/new) that has a link to your GitHub repository and your deployed game.
+- An [**issue ticket** created on **this repository**](https://git.generalassemb.ly/wdi-nyc-delorean/PROJECT_01-Game/issues/new) that has a link to your GitHub repository and your deployed game. (Also include struggles, wins, comfort, completion, etc.)
 
 ---
 
