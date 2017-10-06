@@ -13,7 +13,7 @@ I'm basing the gameplay on a card game that swept my high school in the 90's whi
 Here's a link to a flowchart showing how I envision the gameplay:
 https://www.lucidchart.com/invitations/accept/a8bc32cc-690c-4c8e-b25c-e62c1a7f52ab
 And here's some whiteboard drawings I made of game screens (I'm thinking mobile-first)
-<img src = images/ZimiWhiteboard.jpg></img>
+![Zimi Whiteboard Here](images/ZimiWhiteboard.jpg)
 
 ## Initial thoughts on game structure
 
