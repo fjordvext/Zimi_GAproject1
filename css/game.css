@@ -1,0 +1,145 @@
+body {
+  margin: 0 10px 0 10px;
+  max-width: 782px;
+}
+
+.container {
+  width: 782px;
+  height: 1265px;
+  border: solid black 2px;
+}
+
+.top-image {
+  width: 782px;
+  height: 782px;
+  border: solid black 2px;
+}
+
+.bottom-rules {
+  width: 782px;
+  height: 483px
+  border: solid black 2px;
+  background: #60b89b;
+}
+#deck-area-label {
+  height: 483px
+  width: 150px;
+}
+
+.deck-title{
+  text-orientation: sideways;
+}
+
+.start {
+  background: #df554c;
+  margin-left: 240px;
+  align-self: center;
+  font-family: Raleway;
+  font-size: 30px;
+  color: #60b89b;
+  width: 300px;
+  height: 40px;
+  position: absolute;
+  top: 730px;
+}
+
+.zimi {
+  background: #df554c;
+  margin-left: 20px;
+  align-self: center;
+  font-family: Raleway;
+  font-size: 30px;
+  color: #60b89b;
+  width: 200px;
+  height: 40px;
+  position: absolute;
+  top: 730px;
+}
+
+.play {
+  background: #60b89b;
+  margin-left: 240px;
+  align-self: center;
+  font-family: Raleway;
+  font-size: 30px;
+  color: #df554c;
+  width: 200px;
+  height: 40px;
+  position: absolute;
+  top: 730px;
+}
+
+
+h1 {
+  font-family: Raleway;
+  font-size: 100px;
+  text-align: center;
+}
+
+h2 {
+  font-family: Raleway;
+  font-size: 30px;
+  text-align: center;
+}
+
+p {
+  font-family: Raleway;
+  font-size: 15px;
+  text-align: center;
+}
+
+li {
+  font-family: Raleway;
+  font-size: 15px;
+  margin-left: 50px;
+}
+
+i {
+    font-style: italic;
+}
+
+.deck-area {
+  background: #aaaaaa;
+  display: block;
+  height: 483px;
+  width: 782px;
+  padding-top: 10px;
+}
+
+.card-thumbs {
+height: 483px;
+width: 632px;
+margin-left: 150px;
+float: left;
+}
+
+.card-area{
+height: 150px;
+width: 95px;
+float: left;
+}
+
+.build-area {
+width: 195px;
+height: 305px;
+position: absolute;
+top: 460px;
+left: 562px;
+background: #aaaaaa;
+border: solid #60b89b 2px;
+}
+.build-area-label {
+
+}
+.build-area-cards{
+height: 150px;
+width: 95px;
+float: left;
+}
+
+#fifth{
+  position: relative;
+  z-index: 1;
+  top: -225px;
+  right: -47.5px;
+}

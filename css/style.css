@@ -40,34 +40,10 @@ body {
   width: 300px;
   height: 40px;
   position: absolute;
-  top: 730px;
+  top: 710px;
 }
 
-.zimi {
-  background: #df554c;
-  margin-left: 20px;
-  align-self: center;
-  font-family: Raleway;
-  font-size: 30px;
-  color: #60b89b;
-  width: 200px;
-  height: 40px;
-  position: absolute;
-  top: 1995px;
-}
 
-.play {
-  background: #60b89b;
-  margin-left: 240px;
-  align-self: center;
-  font-family: Raleway;
-  font-size: 30px;
-  color: #df554c;
-  width: 200px;
-  height: 40px;
-  position: absolute;
-  top: 1995px;
-}
 
 
 h1 {
@@ -98,48 +74,10 @@ i {
     font-style: italic;
 }
 
-.deck-area {
-  background: #aaaaaa;
-  display: block;
-  height: 483px;
-  width: 782px;
-  padding-top: 10px;
-}
-
-.card-thumbs {
-height: 483px;
-width: 632px;
-margin-left: 150px;
-float: left;
-}
-
-.card-area{
-height: 150px;
-width: 95px;
-float: left;
-}
-
-.build-area {
-width: 195px;
-height: 305px;
-position: absolute;
-top: 1725px;
-left: 562px;
-background: #aaaaaa;
-border: solid #60b89b 2px;
-}
-.build-area-label {
-
-}
-.build-area-cards{
-height: 150px;
-width: 95px;
-float: left;
-}
-
-#fifth{
-  position: relative;
-  z-index: 1;
-  top: -225px;
-  right: -47.5px;
+a {
+  text-decoration: none;
+  text-align: center;
+  padding: 15px 0 0 0;
+  font-weight: bolder;
+  border: solid #60b89b 2px;
 }
