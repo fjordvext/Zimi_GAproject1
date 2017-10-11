@@ -43,7 +43,22 @@ body {
   top: 710px;
 }
 
+.next{
+  background: #df554c;
+  margin-left: 20px;
+  top: 1200px;
+  align-self: center;
+  font-family: Raleway;
+  font-size: 30px;
+  color: #60b89b;
+  width: 100px;
+  height: 40px;
+  position: absolute;text-align: center;
+  font-weight: bolder;
+  border: solid #60b89b 2px;
+  z-index: 2;
 
+}
 
 
 h1 {

@@ -24,10 +24,14 @@ body {
 #deck-area-label {
   height: 483px
   width: 150px;
+  position: absolute;
+  padding: 10px;
 }
 
 .deck-title{
+  writing-mode: vertical-rl;
   text-orientation: sideways;
+  font-size: 80px;
 }
 
 .start {
