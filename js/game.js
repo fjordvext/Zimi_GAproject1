@@ -1,6 +1,28 @@
 console.log ("javascript is working!")
 //jQuery ready function
 $(document).ready(function(){
+  //GLOBAL VARIABLES
+  //establish build array
+  let build1 = [];
+
+  //establish turn counter
+  let turnCounter = 0;
+  let player = "P1"
+
+  //deck1 empty array here
+  let deck1Unsorted = [];
+
+  //deck2 empty array here
+  let deck2Unsorted = [];
+
+  //establish undefined set combo value and number
+  let setComboValue;
+  let setComboNumber;
+  let comboValue;
+  let comboNumber;
+
+  //establish win state
+  let winState = false;
 
   //cards array here
   let cards = [
@@ -422,13 +444,7 @@ $(document).ready(function(){
   },
   ]
 
-  console.log (cards.length);
-
-  //deck1 empty array here
-  let deck1Unsorted = [];
-
-  //deck2 empty array here
-  let deck2Unsorted = [];
+  // console.log (cards.length);
 
   // Shuffling the array cards using the Fisher Yates method (found at https://bost.ocks.org/mike/shuffle/).
   function shuffle(cards) {
@@ -465,6 +481,12 @@ $(document).ready(function(){
           return 1;
   }
 
+  //turn count function here
+  function turnCount(){
+    turnCounter % 2 === 0 ? player = "P1" : player = "P2"
+    console.log(`turn is now ${player}`)
+  }
+
   //when game screen loads, cards are shuffled, deck of 17 cards is dealt to deck1 and deck2 arrays
 
   //shuffle cards
@@ -486,12 +508,20 @@ $(document).ready(function(){
   console.log(deck2.length);
   console.log(deck2);
 
+  let activeDeck = deck1;
+
+  runOfTurn();
+  // put run of turn into a function
+  function runOfTurn(){
+    turnCount();
+
+
   //map card divs to positions in array deck1
   function mapCardsToDeckArea(){
-  for (i=0; i < deck1.length; i++){
-    $(`#${i}`).html(deck1[i].thumbnail ?  `<img src= ${deck1[i].thumbnail}>` : "");
+  for (i=0; i < activeDeck.length; i++){
+    $(`#${i}`).html(activeDeck[i].thumbnail ?  `<img src= ${activeDeck[i].thumbnail}>` : "");
+    }
   }
-}
 mapCardsToDeckArea();
 
   //map clicked cards to build array
@@ -504,21 +534,20 @@ mapCardsToDeckArea();
 
   }
 
-  //establish build arrays
-  let build1 = [];
-  let build2 =[];
+
 
   //select card function
   function cardToBuild(){
     $(".card-area").mousedown(function(){
-      let selectedCard = deck1[this.id];
+      let selectedCard = activeDeck[this.id];
       build1.push(selectedCard);
-      deck1[this.id] = {};
+      activeDeck[this.id] = {};
       mapCardsToDeckArea();
       mapCardsToBuildArea();
 
       console.log(selectedCard);
-      // console.log(`function for deck1[${this.id}] called!`)
+      // console.log(build1);
+      // console.log(`function for activeDeck[${this.id}] called!`)
     })
   };
   cardToBuild();
@@ -535,10 +564,30 @@ mapCardsToDeckArea();
   //card out of deck area function
 
   //remove card from build
+  function cardFromBuildToDeck(){
+    $(".build-area").mousedown(function(){
+      let $index = $(".build-area-cards").data()
+      let selectedCard = build1[this.$index];
+      activeDeck.push(selectedCard);
+      build1[this.$index] = {};
+      mapCardsToDeckArea();
+      mapCardsToBuildArea();
 
-  //return entire build to deck
+      console.log(selectedCard);
+      // console.log(`function for activeDeck[${this.id}] called!`)
+    })
+  };
+  cardFromBuildToDeck();
+  //return entire build to deck - UGH, maybe later
+  function allBuildToDeck(){
+    for (i=0; i < build1.length; i++){
+      activeDeck.push(build1[i]);
+    };
+      mapCardsToBuildArea();
+      mapCardsToDeckArea();
+  }
 
-  //find highest card in array
+  //find highest card in array - didn't end up using this?
   function findHighest(array){
     array.sort(compareByLevel);
     return array[array.length - 1]
@@ -546,643 +595,443 @@ mapCardsToDeckArea();
 
   //assign value to single
   function singleValueAssign(array){
-    switch (array[0]){
-      case array[0].level === 1 && array[0].elementIndex === 1:
-      let comboValue = 1;
-      break;
-      case array[0].level === 1 && array[0].elementIndex === 2:
-      let comboValue = 2;
-      break;
-      case array[0].level === 1 && array[0].elementIndex === 3:
-      let comboValue = 3;
-      break;
-      case array[0].level === 1 && array[0].elementIndex === 4:
-      let comboValue = 4;
-      break;
-      case array[0].level === 2 && array[0].elementIndex === 1:
-      let comboValue = 5;
-      break;
-      case array[0].level === 2 && array[0].elementIndex === 2:
-      let comboValue = 6;
-      break;
-      case array[0].level === 2 && array[0].elementIndex === 3:
-      let comboValue = 7;
-      break;
-      case array[0].level === 2 && array[0].elementIndex === 4:
-      let comboValue = 8;
-      break;
-      case array[0].level === 3 && array[0].elementIndex === 1:
-      let comboValue = 9;
-      break;
-      case array[0].level === 3 && array[0].elementIndex === 2:
-      let comboValue = 10;
-      break;
-      case array[0].level === 3 && array[0].elementIndex === 3:
-      let comboValue = 11;
-      break;
-      case array[0].level === 3 && array[0].elementIndex === 4:
-      let comboValue = 12;
-      break;
-      case array[0].level === 4 && array[0].elementIndex === 1:
-      let comboValue = 13;
-      break;
-      case array[0].level === 4 && array[0].elementIndex === 2:
-      let comboValue = 14;
-      break;
-      case array[0].level === 4 && array[0].elementIndex === 3:
-      let comboValue = 15;
-      break;
-      case array[0].level === 4 && array[0].elementIndex === 4:
-      let comboValue = 16;
-      break;
-      case array[0].level === 5 && array[0].elementIndex === 1:
-      let comboValue = 17;
-      break;
-      case array[0].level === 5 && array[0].elementIndex === 2:
-      let comboValue = 18;
-      break;
-      case array[0].level === 5 && array[0].elementIndex === 3:
-      let comboValue = 19;
-      break;
-      case array[0].level === 5 && array[0].elementIndex === 4:
-      let comboValue = 20;
-      break;
-      case array[0].level === 6 && array[0].elementIndex === 1:
-      let comboValue = 21;
-      break;
-      case array[0].level === 6 && array[0].elementIndex === 2:
-      let comboValue = 22;
-      break;
-      case array[0].level === 6 && array[0].elementIndex === 3:
-      let comboValue = 23;
-      break;
-      case array[0].level === 6 && array[0].elementIndex === 4:
-      let comboValue = 24;
-      break;
-      case array[0].level === 7 && array[0].elementIndex === 1:
-      let comboValue = 25;
-      break;
-      case array[0].level === 7 && array[0].elementIndex === 2:
-      let comboValue = 26;
-      break;
-      case array[0].level === 7 && array[0].elementIndex === 3:
-      let comboValue = 27;
-      break;
-      case array[0].level === 7 && array[0].elementIndex === 4:
-      let comboValue = 28;
-      break;
-      case array[0].level === 8 && array[0].elementIndex === 1:
-      let comboValue = 29;
-      break;
-      case array[0].level === 8 && array[0].elementIndex === 2:
-      let comboValue = 30;
-      break;
-      case array[0].level === 8 && array[0].elementIndex === 3:
-      let comboValue = 31;
-      break;
-      case array[0].level === 8 && array[0].elementIndex === 4:
-      let comboValue = 32;
-      break;
-      case array[0].level === 9 && array[0].elementIndex === 1:
-      let comboValue = 33;
-      break;
-      case array[0].level === 9 && array[0].elementIndex === 2:
-      let comboValue = 34;
-      break;
-      case array[0].level === 9 && array[0].elementIndex === 3:
-      let comboValue = 35;
-      break;
-      case array[0].level === 9 && array[0].elementIndex === 4:
-      let comboValue = 36;
-      break;
-      case array[0].level === 10 && array[0].elementIndex === 1:
-      let comboValue = 37;
-      break;
-      case array[0].level === 10 && array[0].elementIndex === 2:
-      let comboValue = 38;
-      break;
-      case array[0].level === 10 && array[0].elementIndex === 3:
-      let comboValue = 39;
-      break;
-      case array[0].level === 10 && array[0].elementIndex === 4:
-      let comboValue = 40;
-      break;
-      case array[0].level === 11 && array[0].elementIndex === 1:
-      let comboValue = 41;
-      break;
-      case array[0].level === 11 && array[0].elementIndex === 2:
-      let comboValue = 42;
-      break;
-      case array[0].level === 11 && array[0].elementIndex === 3:
-      let comboValue = 43;
-      break;
-      case array[0].level === 11 && array[0].elementIndex === 4:
-      let comboValue = 44;
-      break;
-      case array[0].level === 12 && array[0].elementIndex === 1:
-      let comboValue = 45;
-      break;
-      case array[0].level === 12 && array[0].elementIndex === 2:
-      let comboValue = 46;
-      break;
-      case array[0].level === 12 && array[0].elementIndex === 3:
-      let comboValue = 47;
-      break;
-      case array[0].level === 12 && array[0].elementIndex === 4:
-      let comboValue = 48;
-      break;
-      case array[0].level === 13 && array[0].elementIndex === 1:
-      let comboValue = 49;
-      break;
-      case array[0].level === 13 && array[0].elementIndex === 2:
-      let comboValue = 50;
-      break;
-      case array[0].level === 13 && array[0].elementIndex === 3:
-      let comboValue = 51;
-      break;
-      case array[0].level === 13 && array[0].elementIndex === 4:
-      let comboValue = 52;
-      break;
-      default :
-      alert("something went screwy");
+    if (array[0].level === 1 && array[0].elementIndex === 1){
+      comboValue = 1;
+    }else if (array[0].level === 1 && array[0].elementIndex === 2){
+      comboValue = 2;
+    }else if (array[0].level === 1 && array[0].elementIndex === 3){
+      comboValue = 3;
+    }else if (array[0].level === 1 && array[0].elementIndex === 4){
+      comboValue = 4;
+    }else if (array[0].level === 2 && array[0].elementIndex === 1){
+      comboValue = 5;
+    }else if (array[0].level === 2 && array[0].elementIndex === 2){
+      comboValue = 6;
+    }else if (array[0].level === 2 && array[0].elementIndex === 3){
+      comboValue = 7;
+    }else if (array[0].level === 2 && array[0].elementIndex === 4){
+      comboValue = 8;
+    }else if (array[0].level === 3 && array[0].elementIndex === 1){
+      comboValue = 9;
+    }else if (array[0].level === 3 && array[0].elementIndex === 2){
+      comboValue = 10;
+    }else if (array[0].level === 3 && array[0].elementIndex === 3){
+      comboValue = 11;
+    }else if (array[0].level === 3 && array[0].elementIndex === 4){
+      comboValue = 12;
+    }else if (array[0].level === 4 && array[0].elementIndex === 1){
+      comboValue = 13;
+    }else if (array[0].level === 4 && array[0].elementIndex === 2){
+      comboValue = 14;
+    }else if (array[0].level === 4 && array[0].elementIndex === 3){
+      comboValue = 15;
+    }else if (array[0].level === 4 && array[0].elementIndex === 4){
+      comboValue = 16;
+    }else if (array[0].level === 5 && array[0].elementIndex === 1){
+      comboValue = 17;
+    }else if (array[0].level === 5 && array[0].elementIndex === 2){
+      comboValue = 18;
+    }else if (array[0].level === 5 && array[0].elementIndex === 3){
+      comboValue = 19;
+    }else if (array[0].level === 5 && array[0].elementIndex === 4){
+      comboValue = 20;
+    }else if (array[0].level === 6 && array[0].elementIndex === 1){
+      comboValue = 21;
+    }else if (array[0].level === 6 && array[0].elementIndex === 2){
+      comboValue = 22;
+    }else if (array[0].level === 6 && array[0].elementIndex === 3){
+      comboValue = 23;
+    }else if (array[0].level === 6 && array[0].elementIndex === 4){
+      comboValue = 24;
+    }else if (array[0].level === 7 && array[0].elementIndex === 1){
+      comboValue = 25;
+    }else if (array[0].level === 7 && array[0].elementIndex === 2){
+      comboValue = 26;
+    }else if (array[0].level === 7 && array[0].elementIndex === 3){
+      comboValue = 27;
+    }else if (array[0].level === 7 && array[0].elementIndex === 4){
+      comboValue = 28;
+    }else if (array[0].level === 8 && array[0].elementIndex === 1){
+      comboValue = 29;
+    }else if (array[0].level === 8 && array[0].elementIndex === 2){
+      comboValue = 30;
+    }else if (array[0].level === 8 && array[0].elementIndex === 3){
+      comboValue = 31;
+    }else if (array[0].level === 8 && array[0].elementIndex === 4){
+      comboValue = 32;
+    }else if (array[0].level === 9 && array[0].elementIndex === 1){
+      comboValue = 33;
+    }else if (array[0].level === 9 && array[0].elementIndex === 2){
+      comboValue = 34;
+    }else if (array[0].level === 9 && array[0].elementIndex === 3){
+      comboValue = 35;
+    }else if (array[0].level === 9 && array[0].elementIndex === 4){
+      comboValue = 36;
+    }else if (array[0].level === 10 && array[0].elementIndex === 1){
+      comboValue = 37;
+    }else if (array[0].level === 10 && array[0].elementIndex === 2){
+      comboValue = 38;
+    }else if (array[0].level === 10 && array[0].elementIndex === 3){
+      comboValue = 39;
+    }else if (array[0].level === 10 && array[0].elementIndex === 4){
+      comboValue = 40;
+    }else if (array[0].level === 11 && array[0].elementIndex === 1){
+      comboValue = 41;
+    }else if (array[0].level === 11 && array[0].elementIndex === 2){
+      comboValue = 42;
+    }else if (array[0].level === 11 && array[0].elementIndex === 3){
+      comboValue = 43;
+    }else if (array[0].level === 11 && array[0].elementIndex === 4){
+      comboValue = 44;
+    }else if (array[0].level === 12 && array[0].elementIndex === 1){
+      comboValue = 45;
+    }else if (array[0].level === 12 && array[0].elementIndex === 2){
+      comboValue = 46;
+    }else if (array[0].level === 12 && array[0].elementIndex === 3){
+      comboValue = 47;
+    }else if (array[0].level === 12 && array[0].elementIndex === 4){
+      comboValue = 48;
+    }else if (array[0].level === 13 && array[0].elementIndex === 1){
+      comboValue = 49;
+    }else if (array[0].level === 13 && array[0].elementIndex === 2){
+      comboValue = 50;
+    }else if (array[0].level === 13 && array[0].elementIndex === 3){
+      comboValue = 51;
+    }else if (array[0].level === 13 && array[0].elementIndex === 4){
+      comboValue = 52;
     }
   }
 
   //assign value to pair
   function pairValueAssign(array){
     array.sort(compareByLevel);
-    switch (array[1]) {
-      case array[1].level === 1 && array[1].elementIndex === 2:
-      let comboValue = 1;
-      break;
-      case array[1].level === 1 && array[1].elementIndex === 3:
-      let comboValue = 2;
-      break;
-      case array[1].level === 1 && array[1].elementIndex === 4:
-      let comboValue = 3;
-      break;
-      case array[1].level === 2 && array[1].elementIndex === 2:
-      let comboValue = 4;
-      break;
-      case array[1].level === 2 && array[1].elementIndex === 3:
-      let comboValue = 5;
-      break;
-      case array[1].level === 2 && array[1].elementIndex === 4:
-      let comboValue = 6;
-      break;
-      case array[1].level === 3 && array[1].elementIndex === 2:
-      let comboValue = 7;
-      break;
-      case array[1].level === 3 && array[1].elementIndex === 3:
-      let comboValue = 8;
-      break;
-      case array[1].level === 3 && array[1].elementIndex === 4:
-      let comboValue = 9;
-      break;
-      case array[1].level === 4 && array[1].elementIndex === 2:
-      let comboValue = 10;
-      break;
-      case array[1].level === 4 && array[1].elementIndex === 3:
-      let comboValue = 11;
-      break;
-      case array[1].level === 4 && array[1].elementIndex === 4:
-      let comboValue = 12;
-      break;
-      case array[1].level === 5 && array[1].elementIndex === 2:
-      let comboValue = 13;
-      break;
-      case array[1].level === 5 && array[1].elementIndex === 3:
-      let comboValue = 14;
-      break;
-      case array[1].level === 5 && array[1].elementIndex === 4:
-      let comboValue = 15;
-      break;
-      case array[1].level === 6 && array[1].elementIndex === 2:
-      let comboValue = 16;
-      break;
-      case array[1].level === 6 && array[1].elementIndex === 3:
-      let comboValue = 17;
-      break;
-      case array[1].level === 6 && array[1].elementIndex === 4:
-      let comboValue = 18;
-      break;
-      case array[1].level === 7 && array[1].elementIndex === 2:
-      let comboValue = 19;
-      break;
-      case array[1].level === 7 && array[1].elementIndex === 3:
-      let comboValue = 20;
-      break;
-      case array[1].level === 7 && array[1].elementIndex === 4:
-      let comboValue = 21;
-      break;
-      case array[1].level === 8 && array[1].elementIndex === 2:
-      let comboValue = 22;
-      break;
-      case array[1].level === 8 && array[1].elementIndex === 3:
-      let comboValue = 23;
-      break;
-      case array[1].level === 8 && array[1].elementIndex === 4:
-      let comboValue = 24;
-      break;
-      case array[1].level === 9 && array[1].elementIndex === 2:
-      let comboValue = 25;
-      break;
-      case array[1].level === 9 && array[1].elementIndex === 3:
-      let comboValue = 26;
-      break;
-      case array[1].level === 9 && array[1].elementIndex === 4:
-      let comboValue = 27;
-      break;
-      case array[1].level === 10 && array[1].elementIndex === 2:
-      let comboValue = 28;
-      break;
-      case array[1].level === 10 && array[1].elementIndex === 3:
-      let comboValue = 29;
-      break;
-      case array[1].level === 10 && array[1].elementIndex === 4:
-      let comboValue = 30;
-      break;
-      case array[1].level === 11 && array[1].elementIndex === 2:
-      let comboValue = 31;
-      break;
-      case array[1].level === 11 && array[1].elementIndex === 3:
-      let comboValue = 32;
-      break;
-      case array[1].level === 11 && array[1].elementIndex === 4:
-      let comboValue = 33;
-      break;
-      case array[1].level === 12 && array[1].elementIndex === 2:
-      let comboValue = 34;
-      break;
-      case array[1].level === 12 && array[1].elementIndex === 3:
-      let comboValue = 35;
-      break;
-      case array[1].level === 12 && array[1].elementIndex === 4:
-      let comboValue = 36;
-      break;
-      case array[1].level === 13 && array[1].elementIndex === 2:
-      let comboValue = 37;
-      break;
-      case array[1].level === 13 && array[1].elementIndex === 3:
-      let comboValue = 38;
-      break;
-      case array[1].level === 13 && array[1].elementIndex === 4:
-      let comboValue = 39;
-      break;
-      default:
-      alert("something went screwy");
+    if (array[1].level === 1 && array[1].elementIndex === 2){
+      comboValue = 1;
+    } else if (array[1].level === 1 && array[1].elementIndex === 3){
+      comboValue = 2;
+    } else if (array[1].level === 1 && array[1].elementIndex === 4){
+      comboValue = 3;
+    } else if (array[1].level === 2 && array[1].elementIndex === 2){
+      comboValue = 4;
+    } else if (array[1].level === 2 && array[1].elementIndex === 3){
+      comboValue = 5;
+    } else if (array[1].level === 2 && array[1].elementIndex === 4){
+      comboValue = 6;
+    } else if (array[1].level === 3 && array[1].elementIndex === 2){
+      comboValue = 7;
+    } else if (array[1].level === 3 && array[1].elementIndex === 3){
+      comboValue = 8;
+    } else if (array[1].level === 3 && array[1].elementIndex === 4){
+      comboValue = 9;
+    } else if (array[1].level === 4 && array[1].elementIndex === 2){
+      comboValue = 10;
+    } else if (array[1].level === 4 && array[1].elementIndex === 3){
+      comboValue = 11;
+    } else if (array[1].level === 4 && array[1].elementIndex === 4){
+      comboValue = 12;
+    } else if (array[1].level === 5 && array[1].elementIndex === 2){
+      comboValue = 13;
+    } else if (array[1].level === 5 && array[1].elementIndex === 3){
+      comboValue = 14;
+    } else if (array[1].level === 5 && array[1].elementIndex === 4){
+      comboValue = 15;
+    } else if (array[1].level === 6 && array[1].elementIndex === 2){
+      comboValue = 16;
+    } else if (array[1].level === 6 && array[1].elementIndex === 3){
+      comboValue = 17;
+    } else if (array[1].level === 6 && array[1].elementIndex === 4){
+      comboValue = 18;
+    } else if (array[1].level === 7 && array[1].elementIndex === 2){
+      comboValue = 19;
+    } else if (array[1].level === 7 && array[1].elementIndex === 3){
+      comboValue = 20;
+    } else if (array[1].level === 7 && array[1].elementIndex === 4){
+      comboValue = 21;
+    } else if (array[1].level === 8 && array[1].elementIndex === 2){
+      comboValue = 22;
+    } else if (array[1].level === 8 && array[1].elementIndex === 3){
+      comboValue = 23;
+    } else if (array[1].level === 8 && array[1].elementIndex === 4){
+      comboValue = 24;
+    } else if (array[1].level === 9 && array[1].elementIndex === 2){
+      comboValue = 25;
+    } else if (array[1].level === 9 && array[1].elementIndex === 3){
+      comboValue = 26;
+    } else if (array[1].level === 9 && array[1].elementIndex === 4){
+      comboValue = 27;
+    } else if (array[1].level === 10 && array[1].elementIndex === 2){
+      comboValue = 28;
+    } else if (array[1].level === 10 && array[1].elementIndex === 3){
+      comboValue = 29;
+    } else if (array[1].level === 10 && array[1].elementIndex === 4){
+      comboValue = 30;
+    } else if (array[1].level === 11 && array[1].elementIndex === 2){
+      comboValue = 31;
+    } else if (array[1].level === 11 && array[1].elementIndex === 3){
+      comboValue = 32;
+    } else if (array[1].level === 11 && array[1].elementIndex === 4){
+      comboValue = 33;
+    } else if (array[1].level === 12 && array[1].elementIndex === 2){
+      comboValue = 34;
+    } else if (array[1].level === 12 && array[1].elementIndex === 3){
+      comboValue = 35;
+    } else if (array[1].level === 12 && array[1].elementIndex === 4){
+      comboValue = 36;
+    } else if (array[1].level === 13 && array[1].elementIndex === 2){
+      comboValue = 37;
+    } else if (array[1].level === 13 && array[1].elementIndex === 3){
+      comboValue = 38;
+    } else if (array[1].level === 13 && array[1].elementIndex === 4){
+      comboValue = 39;
     }
   }
   //assign value to triple
   function tripleValueAssign(array){
     array.sort(compareByLevel);
-    switch (array[2]) {
-      case array[2].level === 1 && array[2].elementIndex === 3:
-      let comboValue = 1;
-      break;
-      case array[2].level === 1 && array[2].elementIndex === 4:
-      let comboValue = 2;
-      break;
-      case array[2].level === 2 && array[2].elementIndex === 3:
-      let comboValue = 3;
-      break;
-      case array[2].level === 2 && array[2].elementIndex === 4:
-      let comboValue = 4;
-      break;
-      case array[2].level === 3 && array[2].elementIndex === 3:
-      let comboValue = 5;
-      break;
-      case array[2].level === 3 && array[2].elementIndex === 4:
-      let comboValue = 6;
-      break;
-      case array[2].level === 4 && array[2].elementIndex === 3:
-      let comboValue = 7;
-      break;
-      case array[2].level === 4 && array[2].elementIndex === 4:
-      let comboValue = 8;
-      break;
-      case array[2].level === 5 && array[2].elementIndex === 3:
-      let comboValue = 9;
-      break;
-      case array[2].level === 5 && array[2].elementIndex === 4:
-      let comboValue = 10;
-      break;
-      case array[2].level === 6 && array[2].elementIndex === 3:
-      let comboValue = 11;
-      break;
-      case array[2].level === 6 && array[2].elementIndex === 4:
-      let comboValue = 12;
-      break;
-      case array[2].level === 7 && array[2].elementIndex === 3:
-      let comboValue = 13;
-      break;
-      case array[2].level === 7 && array[2].elementIndex === 4:
-      let comboValue = 14;
-      break;
-      case array[2].level === 8 && array[2].elementIndex === 3:
-      let comboValue = 15;
-      break;
-      case array[2].level === 8 && array[2].elementIndex === 4:
-      let comboValue = 16;
-      break;
-      case array[2].level === 9 && array[2].elementIndex === 3:
-      let comboValue = 17;
-      break;
-      case array[2].level === 9 && array[2].elementIndex === 4:
-      let comboValue = 18;
-      break;
-      case array[2].level === 10 && array[2].elementIndex === 3:
-      let comboValue = 19;
-      break;
-      case array[2].level === 10 && array[2].elementIndex === 4:
-      let comboValue = 20;
-      break;
-      case array[2].level === 11 && array[2].elementIndex === 3:
-      let comboValue = 21;
-      break;
-      case array[2].level === 11 && array[2].elementIndex === 4:
-      let comboValue = 22;
-      break;
-      case array[2].level === 12 && array[2].elementIndex === 3:
-      let comboValue = 23;
-      break;
-      case array[2].level === 12 && array[2].elementIndex === 4:
-      let comboValue = 24;
-      break;
-      case array[2].level === 13 && array[2].elementIndex === 3:
-      let comboValue = 25;
-      break;
-      case array[2].level === 13 && array[2].elementIndex === 4:
-      let comboValue = 26;
-      break;
-      default:
-      alert("something went screwy");
+    if (array[2].level === 1 && array[2].elementIndex === 3){
+      comboValue = 1;
+    }else if (array[2].level === 1 && array[2].elementIndex === 4){
+      comboValue = 2;
+    }else if (array[2].level === 2 && array[2].elementIndex === 3){
+      comboValue = 3;
+    }else if (array[2].level === 2 && array[2].elementIndex === 4){
+      comboValue = 4;
+    }else if (array[2].level === 3 && array[2].elementIndex === 3){
+      comboValue = 5;
+    }else if (array[2].level === 3 && array[2].elementIndex === 4){
+      comboValue = 6;
+    }else if (array[2].level === 4 && array[2].elementIndex === 3){
+      comboValue = 7;
+    }else if (array[2].level === 4 && array[2].elementIndex === 4){
+      comboValue = 8;
+    }else if (array[2].level === 5 && array[2].elementIndex === 3){
+      comboValue = 9;
+    }else if (array[2].level === 5 && array[2].elementIndex === 4){
+      comboValue = 10;
+    }else if (array[2].level === 6 && array[2].elementIndex === 3){
+      comboValue = 11;
+    }else if (array[2].level === 6 && array[2].elementIndex === 4){
+      comboValue = 12;
+    }else if (array[2].level === 7 && array[2].elementIndex === 3){
+      comboValue = 13;
+    }else if (array[2].level === 7 && array[2].elementIndex === 4){
+      comboValue = 14;
+    }else if (array[2].level === 8 && array[2].elementIndex === 3){
+      comboValue = 15;
+    }else if (array[2].level === 8 && array[2].elementIndex === 4){
+      comboValue = 16;
+    }else if (array[2].level === 9 && array[2].elementIndex === 3){
+      comboValue = 17;
+    }else if (array[2].level === 9 && array[2].elementIndex === 4){
+      comboValue = 18;
+    }else if (array[2].level === 10 && array[2].elementIndex === 3){
+      comboValue = 19;
+    }else if (array[2].level === 10 && array[2].elementIndex === 4){
+      comboValue = 20;
+    }else if (array[2].level === 11 && array[2].elementIndex === 3){
+      comboValue = 21;
+    }else if (array[2].level === 11 && array[2].elementIndex === 4){
+      comboValue = 22;
+    }else if (array[2].level === 12 && array[2].elementIndex === 3){
+      comboValue = 23;
+    }else if (array[2].level === 12 && array[2].elementIndex === 4){
+      comboValue = 24;
+    }else if (array[2].level === 13 && array[2].elementIndex === 3){
+      comboValue = 25;
+    }else if (array[2].level === 13 && array[2].elementIndex === 4){
+      comboValue = 26;
     }
   }
 
   //assign value to straight
   function straightValueAssign(array){
     array.sort(compareByLevel);
-    switch (array[4]){
-      case array[4].level === 5 && array[4].elementIndex === 1:
-      let comboValue = 1;
-      break;
-      case array[4].level === 5 && array[4].elementIndex === 2:
-      let comboValue = 2;
-      break;
-      case array[4].level === 5 && array[4].elementIndex === 3:
-      let comboValue = 3;
-      break;
-      case array[4].level === 5 && array[4].elementIndex === 4:
-      let comboValue = 4;
-      break;
-      case array[4].level === 6 && array[4].elementIndex === 1:
-      let comboValue = 5;
-      break;
-      case array[4].level === 6 && array[4].elementIndex === 2:
-      let comboValue = 6;
-      break;
-      case array[4].level === 6 && array[4].elementIndex === 3:
-      let comboValue = 7;
-      break;
-      case array[4].level === 6 && array[4].elementIndex === 4:
-      let comboValue = 8;
-      break;
-      case array[4].level === 7 && array[4].elementIndex === 1:
-      let comboValue = 9;
-      break;
-      case array[4].level === 7 && array[4].elementIndex === 2:
-      let comboValue = 14;
-      break;
-      case array[4].level === 7 && array[4].elementIndex === 3:
-      let comboValue = 11;
-      break;
-      case array[4].level === 7 && array[4].elementIndex === 4:
-      let comboValue = 12;
-      break;
-      case array[4].level === 8 && array[4].elementIndex === 1:
-      let comboValue = 13;
-      break;
-      case array[4].level === 8 && array[4].elementIndex === 2:
-      let comboValue = 14;
-      break;
-      case array[4].level === 8 && array[4].elementIndex === 3:
-      let comboValue = 15;
-      break;
-      case array[4].level === 8 && array[4].elementIndex === 4:
-      let comboValue = 16;
-      break;
-      case array[4].level === 9 && array[4].elementIndex === 1:
-      let comboValue = 17;
-      break;
-      case array[4].level === 9 && array[4].elementIndex === 2:
-      let comboValue = 18;
-      break;
-      case array[4].level === 9 && array[4].elementIndex === 3:
-      let comboValue = 19;
-      break;
-      case array[4].level === 9 && array[4].elementIndex === 4:
-      let comboValue = 24;
-      break;
-      case array[4].level === 10 && array[4].elementIndex === 1:
-      let comboValue = 21;
-      break;
-      case array[4].level === 10 && array[4].elementIndex === 2:
-      let comboValue = 22;
-      break;
-      case array[4].level === 10 && array[4].elementIndex === 3:
-      let comboValue = 23;
-      break;
-      case array[4].level === 10 && array[4].elementIndex === 4:
-      let comboValue = 24;
-      break;
-      case array[4].level === 11 && array[4].elementIndex === 1:
-      let comboValue = 25;
-      break;
-      case array[4].level === 11 && array[4].elementIndex === 2:
-      let comboValue = 26;
-      break;
-      case array[4].level === 11 && array[4].elementIndex === 3:
-      let comboValue = 27;
-      break;
-      case array[4].level === 11 && array[4].elementIndex === 4:
-      let comboValue = 28;
-      break;
-      case array[4].level === 12 && array[4].elementIndex === 1:
-      let comboValue = 29;
-      break;
-      case array[4].level === 12 && array[4].elementIndex === 2:
-      let comboValue = 34;
-      break;
-      case array[4].level === 12 && array[4].elementIndex === 3:
-      let comboValue = 31;
-      break;
-      case array[4].level === 12 && array[4].elementIndex === 4:
-      let comboValue = 32;
-      break;
-      case array[4].level === 13 && array[4].elementIndex === 1:
-      let comboValue = 33;
-      break;
-      case array[4].level === 13 && array[4].elementIndex === 2:
-      let comboValue = 34;
-      break;
-      case array[4].level === 13 && array[4].elementIndex === 3:
-      let comboValue = 35;
-      break;
-      case array[4].level === 13 && array[4].elementIndex === 4:
-      let comboValue = 36;
-      break;
-      default:
-      alert("something went screwy");
-    }
+    if (array[4].level === 5 && array[4].elementIndex === 1){
+      comboValue = 1;
+    }else if(array[4].level === 5 && array[4].elementIndex === 2){
+        comboValue = 2;
+    }else if(array[4].level === 5 && array[4].elementIndex === 3){
+        comboValue = 3;
+    }else if(array[4].level === 5 && array[4].elementIndex === 4){
+        comboValue = 4;
+    }else if(array[4].level === 6 && array[4].elementIndex === 1){
+        comboValue = 5;
+    }else if(array[4].level === 6 && array[4].elementIndex === 2){
+        comboValue = 6;
+    }else if(array[4].level === 6 && array[4].elementIndex === 3){
+        comboValue = 7;
+    }else if(array[4].level === 6 && array[4].elementIndex === 4){
+        comboValue = 8;
+    }else if(array[4].level === 7 && array[4].elementIndex === 1){
+        comboValue = 9;
+    }else if(array[4].level === 7 && array[4].elementIndex === 2){
+        comboValue = 14;
+    }else if(array[4].level === 7 && array[4].elementIndex === 3){
+        comboValue = 11;
+    }else if(array[4].level === 7 && array[4].elementIndex === 4){
+        comboValue = 12;
+    }else if(array[4].level === 8 && array[4].elementIndex === 1){
+        comboValue = 13;
+    }else if(array[4].level === 8 && array[4].elementIndex === 2){
+        comboValue = 14;
+    }else if(array[4].level === 8 && array[4].elementIndex === 3){
+        comboValue = 15;
+    }else if(array[4].level === 8 && array[4].elementIndex === 4){
+        comboValue = 16;
+    }else if(array[4].level === 9 && array[4].elementIndex === 1){
+        comboValue = 17;
+    }else if(array[4].level === 9 && array[4].elementIndex === 2){
+        comboValue = 18;
+    }else if(array[4].level === 9 && array[4].elementIndex === 3){
+        comboValue = 19;
+    }else if(array[4].level === 9 && array[4].elementIndex === 4){
+        comboValue = 24;
+    }else if(array[4].level === 10 && array[4].elementIndex === 1){
+        comboValue = 21;
+    }else if(array[4].level === 10 && array[4].elementIndex === 2){
+        comboValue = 22;
+    }else if(array[4].level === 10 && array[4].elementIndex === 3){
+        comboValue = 23;
+    }else if(array[4].level === 10 && array[4].elementIndex === 4){
+        comboValue = 24;
+    }else if(array[4].level === 11 && array[4].elementIndex === 1){
+        comboValue = 25;
+    }else if(array[4].level === 11 && array[4].elementIndex === 2){
+        comboValue = 26;
+    }else if(array[4].level === 11 && array[4].elementIndex === 3){
+        comboValue = 27;
+    }else if(array[4].level === 11 && array[4].elementIndex === 4){
+        comboValue = 28;
+    }else if(array[4].level === 12 && array[4].elementIndex === 1){
+        comboValue = 29;
+    }else if(array[4].level === 12 && array[4].elementIndex === 2){
+        comboValue = 34;
+    }else if(array[4].level === 12 && array[4].elementIndex === 3){
+        comboValue = 31;
+    }else if(array[4].level === 12 && array[4].elementIndex === 4){
+        comboValue = 32;
+    }else if(array[4].level === 13 && array[4].elementIndex === 1){
+        comboValue = 33;
+    }else if(array[4].level === 13 && array[4].elementIndex === 2){
+        comboValue = 34;
+    }else if(array[4].level === 13 && array[4].elementIndex === 3){
+        comboValue = 35;
+    }else if(array[4].level === 13 && array[4].elementIndex === 4){
+        comboValue = 36;
+      }
   }
   //assign value to flush
   function flushValueAssign(array){
     array.sort(compareByLevel);
-    switch (array[4]){
-      case array[4].level === 6 && array[4].elementIndex === 1:
-      let comboValue = 37;
-      break;
-      case array[4].level === 7 && array[4].elementIndex === 1:
-      let comboValue = 38;
-      break;
-      case array[4].level === 8 && array[4].elementIndex === 1:
-      let comboValue = 39;
-      break;
-      case array[4].level === 9 && array[4].elementIndex === 1:
-      let comboValue = 40;
-      break;
-      case array[4].level === 10 && array[4].elementIndex === 1:
-      let comboValue = 41;
-      break;
-      case array[4].level === 11 && array[4].elementIndex === 1:
-      let comboValue = 42;
-      break;
-      case array[4].level === 12 && array[4].elementIndex === 1:
-      let comboValue = 43;
-      break;
-      case array[4].level === 13 && array[4].elementIndex === 1:
-      let comboValue = 44;
-      break;
-      case array[4].level === 6 && array[4].elementIndex === 2:
-      let comboValue = 45;
-      break;
-      case array[4].level === 7 && array[4].elementIndex === 2:
-      let comboValue = 46;
-      break;
-      case array[4].level === 8 && array[4].elementIndex === 2:
-      let comboValue = 47;
-      break;
-      case array[4].level === 9 && array[4].elementIndex === 2:
-      let comboValue = 48;
-      break;
-      case array[4].level === 10 && array[4].elementIndex === 2:
-      let comboValue = 49;
-      break;
-      case array[4].level === 11 && array[4].elementIndex === 2:
-      let comboValue = 50;
-      break;
-      case array[4].level === 12 && array[4].elementIndex === 2:
-      let comboValue = 51;
-      break;
-      case array[4].level === 13 && array[4].elementIndex === 2:
-      let comboValue = 52;
-      break;
-      case array[4].level === 6 && array[4].elementIndex === 3:
-      let comboValue = 53;
-      break;
-      case array[4].level === 7 && array[4].elementIndex === 3:
-      let comboValue = 54;
-      break;
-      case array[4].level === 8 && array[4].elementIndex === 3:
-      let comboValue = 55;
-      break;
-      case array[4].level === 9 && array[4].elementIndex === 3:
-      let comboValue = 56;
-      break;
-      case array[4].level === 10 && array[4].elementIndex === 3:
-      let comboValue = 57;
-      break;
-      case array[4].level === 11 && array[4].elementIndex === 3:
-      let comboValue = 58;
-      break;
-      case array[4].level === 12 && array[4].elementIndex === 3:
-      let comboValue = 59;
-      break;
-      case array[4].level === 13 && array[4].elementIndex === 3:
-      let comboValue = 60;
-      break;
-      case array[4].level === 6 && array[4].elementIndex === 4:
-      let comboValue = 61;
-      break;
-      case array[4].level === 7 && array[4].elementIndex === 4:
-      let comboValue = 62;
-      break;
-      case array[4].level === 8 && array[4].elementIndex === 4:
-      let comboValue = 63;
-      break;
-      case array[4].level === 9 && array[4].elementIndex === 4:
-      let comboValue = 64;
-      break;
-      case array[4].level === 10 && array[4].elementIndex === 4:
-      let comboValue = 65;
-      break;
-      case array[4].level === 11 && array[4].elementIndex === 4:
-      let comboValue = 66;
-      break;
-      case array[4].level === 12 && array[4].elementIndex === 4:
-      let comboValue = 67;
-      break;
-      case array[4].level === 13 && array[4].elementIndex === 4:
-      let comboValue = 68;
-      break;
-      default:
-      alert("something went screwy");
+    if (array[4].level === 6 && array[4].elementIndex === 1){
+      comboValue = 37;
+    }else if (array[4].level === 7 && array[4].elementIndex === 1){
+      comboValue = 38;
+    }else if (array[4].level === 8 && array[4].elementIndex === 1){
+      comboValue = 39;
+    }else if (array[4].level === 9 && array[4].elementIndex === 1){
+      comboValue = 40;
+    }else if (array[4].level === 10 && array[4].elementIndex === 1){
+      comboValue = 41;
+    }else if (array[4].level === 11 && array[4].elementIndex === 1){
+      comboValue = 42;
+    }else if (array[4].level === 12 && array[4].elementIndex === 1){
+      comboValue = 43;
+    }else if (array[4].level === 13 && array[4].elementIndex === 1){
+      comboValue = 44;
+    }else if (array[4].level === 6 && array[4].elementIndex === 2){
+      comboValue = 45;
+    }else if (array[4].level === 7 && array[4].elementIndex === 2){
+      comboValue = 46;
+    }else if (array[4].level === 8 && array[4].elementIndex === 2){
+      comboValue = 47;
+    }else if (array[4].level === 9 && array[4].elementIndex === 2){
+      comboValue = 48;
+    }else if (array[4].level === 10 && array[4].elementIndex === 2){
+      comboValue = 49;
+    }else if (array[4].level === 11 && array[4].elementIndex === 2){
+      comboValue = 50;
+    }else if (array[4].level === 12 && array[4].elementIndex === 2){
+      comboValue = 51;
+    }else if (array[4].level === 13 && array[4].elementIndex === 2){
+      comboValue = 52;
+    }else if (array[4].level === 6 && array[4].elementIndex === 3){
+      comboValue = 53;
+    }else if (array[4].level === 7 && array[4].elementIndex === 3){
+      comboValue = 54;
+    }else if (array[4].level === 8 && array[4].elementIndex === 3){
+      comboValue = 55;
+    }else if (array[4].level === 9 && array[4].elementIndex === 3){
+      comboValue = 56;
+    }else if (array[4].level === 10 && array[4].elementIndex === 3){
+      comboValue = 57;
+    }else if (array[4].level === 11 && array[4].elementIndex === 3){
+      comboValue = 58;
+    }else if (array[4].level === 12 && array[4].elementIndex === 3){
+      comboValue = 59;
+    }else if (array[4].level === 13 && array[4].elementIndex === 3){
+      comboValue = 60;
+    }else if (array[4].level === 6 && array[4].elementIndex === 4){
+      comboValue = 61;
+    }else if (array[4].level === 7 && array[4].elementIndex === 4){
+      comboValue = 62;
+    }else if (array[4].level === 8 && array[4].elementIndex === 4){
+      comboValue = 63;
+    }else if (array[4].level === 9 && array[4].elementIndex === 4){
+      comboValue = 64;
+    }else if (array[4].level === 10 && array[4].elementIndex === 4){
+      comboValue = 65;
+    }else if (array[4].level === 11 && array[4].elementIndex === 4){
+      comboValue = 66;
+    }else if (array[4].level === 12 && array[4].elementIndex === 4){
+      comboValue = 67;
+    }else if (array[4].level === 13 && array[4].elementIndex === 4){
+      comboValue = 68;
     }
   }
 
   //assign value to full house
   function fullHouseValueAssign(array){
     array.sort(compareByLevel);
-    switch (array[2]){
-      case array[2].level === 1:
-      let comboValue = 69;
+    switch (array[2].level){
+      case  1:
+      comboValue = 69;
       break;
-      case array[2].level === 2:
-      let comboValue = 70;
+      case  2:
+      comboValue = 70;
       break;
-      case array[2].level === 3:
-      let comboValue = 71;
+      case  3:
+      comboValue = 71;
       break;
-      case array[2].level === 4:
-      let comboValue = 72;
+      case  4:
+      comboValue = 72;
       break;
-      case array[2].level === 5:
-      let comboValue = 73;
+      case  5:
+      comboValue = 73;
       break;
-      case array[2].level === 6:
-      let comboValue = 74;
+      case  6:
+      comboValue = 74;
       break;
-      case array[2].level === 7:
-      let comboValue = 75;
+      case  7:
+      comboValue = 75;
       break;
-      case array[2].level === 8:
-      let comboValue = 76;
+      case  8:
+      comboValue = 76;
       break;
-      case array[2].level === 9:
-      let comboValue = 77;
+      case  9:
+      comboValue = 77;
       break;
-      case array[2].level === 10:
-      let comboValue = 78;
+      case  10:
+      comboValue = 78;
       break;
-      case array[2].level === 11:
-      let comboValue = 79;
+      case  11:
+      comboValue = 79;
       break;
-      case array[2].level === 12:
-      let comboValue = 80;
+      case  12:
+      comboValue = 80;
       break;
-      case array[2].level === 13:
-      let comboValue = 81;
+      case  13:
+      comboValue = 81;
       break;
       default:
       alert("something went screwy");
@@ -1193,44 +1042,44 @@ mapCardsToDeckArea();
   function fourOfAKindValueAssign(array){
     array.sort(compareByLevel);
     switch (array[2]){
-      case array[2].level === 1:
-      let comboValue = 82;
+      case 1:
+      comboValue = 82;
       break;
-      case array[2].level === 2:
-      let comboValue = 83;
+      case 2:
+      comboValue = 83;
       break;
-      case array[2].level === 3:
-      let comboValue = 84;
+      case 3:
+      comboValue = 84;
       break;
-      case array[2].level === 4:
-      let comboValue = 85;
+      case 4:
+      comboValue = 85;
       break;
-      case array[2].level === 5:
-      let comboValue = 86;
+      case 5:
+      comboValue = 86;
       break;
-      case array[2].level === 6:
-      let comboValue = 87;
+      case 6:
+      comboValue = 87;
       break;
-      case array[2].level === 7:
-      let comboValue = 88;
+      case 7:
+      comboValue = 88;
       break;
-      case array[2].level === 8:
-      let comboValue = 89;
+      case 8:
+      comboValue = 89;
       break;
-      case array[2].level === 9:
-      let comboValue = 90;
+      case 9:
+      comboValue = 90;
       break;
-      case array[2].level === 10:
-      let comboValue = 91;
+      case 10:
+      comboValue = 91;
       break;
-      case array[2].level === 11:
-      let comboValue = 92;
+      case 11:
+      comboValue = 92;
       break;
-      case array[2].level === 12:
-      let comboValue = 93;
+      case 12:
+      comboValue = 93;
       break;
-      case array[2].level === 13:
-      let comboValue = 94;
+      case 13:
+      comboValue = 94;
       break;
       default:
       alert("something went screwy");
@@ -1240,155 +1089,127 @@ mapCardsToDeckArea();
   //assign value to straight flush
   function straightFlushValueAssign(array){
     array.sort(compareByLevel);
-    switch (array[4]){
-      case array[4].level === 5 && array[4].elementIndex === 1:
-      let comboValue = 95;
-      break;
-      case array[4].level === 5 && array[4].elementIndex === 2:
-      let comboValue = 96;
-      break;
-      case array[4].level === 5 && array[4].elementIndex === 3:
-      let comboValue = 97;
-      break;
-      case array[4].level === 5 && array[4].elementIndex === 4:
-      let comboValue = 98;
-      break;
-      case array[4].level === 6 && array[4].elementIndex === 1:
-      let comboValue = 99;
-      break;
-      case array[4].level === 6 && array[4].elementIndex === 2:
-      let comboValue = 100;
-      break;
-      case array[4].level === 6 && array[4].elementIndex === 3:
-      let comboValue = 101;
-      break;
-      case array[4].level === 6 && array[4].elementIndex === 4:
-      let comboValue = 102;
-      break;
-      case array[4].level === 7 && array[4].elementIndex === 1:
-      let comboValue = 103;
-      break;
-      case array[4].level === 7 && array[4].elementIndex === 2:
-      let comboValue = 104;
-      break;
-      case array[4].level === 7 && array[4].elementIndex === 3:
-      let comboValue = 105;
-      break;
-      case array[4].level === 7 && array[4].elementIndex === 4:
-      let comboValue = 106;
-      break;
-      case array[4].level === 8 && array[4].elementIndex === 1:
-      let comboValue = 107;
-      break;
-      case array[4].level === 8 && array[4].elementIndex === 2:
-      let comboValue = 108;
-      break;
-      case array[4].level === 8 && array[4].elementIndex === 3:
-      let comboValue = 109;
-      break;
-      case array[4].level === 8 && array[4].elementIndex === 4:
-      let comboValue = 110;
-      break;
-      case array[4].level === 9 && array[4].elementIndex === 1:
-      let comboValue = 111;
-      break;
-      case array[4].level === 9 && array[4].elementIndex === 2:
-      let comboValue = 112;
-      break;
-      case array[4].level === 9 && array[4].elementIndex === 3:
-      let comboValue = 113;
-      break;
-      case array[4].level === 9 && array[4].elementIndex === 4:
-      let comboValue = 114;
-      break;
-      case array[4].level === 10 && array[4].elementIndex === 1:
-      let comboValue = 115;
-      break;
-      case array[4].level === 10 && array[4].elementIndex === 2:
-      let comboValue = 116;
-      break;
-      case array[4].level === 10 && array[4].elementIndex === 3:
-      let comboValue = 117;
-      break;
-      case array[4].level === 10 && array[4].elementIndex === 4:
-      let comboValue = 118;
-      break;
-      case array[4].level === 11 && array[4].elementIndex === 1:
-      let comboValue = 119;
-      break;
-      case array[4].level === 11 && array[4].elementIndex === 2:
-      let comboValue = 120;
-      break;
-      case array[4].level === 11 && array[4].elementIndex === 3:
-      let comboValue = 121;
-      break;
-      case array[4].level === 11 && array[4].elementIndex === 4:
-      let comboValue = 122;
-      break;
-      case array[4].level === 12 && array[4].elementIndex === 1:
-      let comboValue = 123;
-      break;
-      case array[4].level === 12 && array[4].elementIndex === 2:
-      let comboValue = 124;
-      break;
-      case array[4].level === 12 && array[4].elementIndex === 3:
-      let comboValue = 125;
-      break;
-      case array[4].level === 12 && array[4].elementIndex === 4:
-      let comboValue = 126;
-      break;
-      case array[4].level === 13 && array[4].elementIndex === 1:
-      let comboValue = 127;
-      break;
-      case array[4].level === 13 && array[4].elementIndex === 2:
-      let comboValue = 128;
-      break;
-      case array[4].level === 13 && array[4].elementIndex === 3:
-      let comboValue = 129;
-      break;
-      case array[4].level === 13 && array[4].elementIndex === 4:
-      let comboValue = 130;
-      break;
-      default:
-      alert("something went screwy");
-    }
+    if (array[4].level === 5 && array[4].elementIndex === 1){
+      comboValue = 95;
+      } else if (array[4].level === 5 && array[4].elementIndex === 2){
+      comboValue = 96;
+      } else if (array[4].level === 5 && array[4].elementIndex === 3){
+      comboValue = 97;
+      } else if (array[4].level === 5 && array[4].elementIndex === 4){
+      comboValue = 98;
+      } else if (array[4].level === 6 && array[4].elementIndex === 1){
+      comboValue = 99;
+      } else if (array[4].level === 6 && array[4].elementIndex === 2){
+      comboValue = 100;
+      } else if (array[4].level === 6 && array[4].elementIndex === 3){
+      comboValue = 101;
+      } else if (array[4].level === 6 && array[4].elementIndex === 4){
+      comboValue = 102;
+      } else if (array[4].level === 7 && array[4].elementIndex === 1){
+      comboValue = 103;
+      } else if (array[4].level === 7 && array[4].elementIndex === 2){
+      comboValue = 104;
+      } else if (array[4].level === 7 && array[4].elementIndex === 3){
+      comboValue = 105;
+      } else if (array[4].level === 7 && array[4].elementIndex === 4){
+      comboValue = 106;
+      } else if (array[4].level === 8 && array[4].elementIndex === 1){
+      comboValue = 107;
+      } else if (array[4].level === 8 && array[4].elementIndex === 2){
+      comboValue = 108;
+      } else if (array[4].level === 8 && array[4].elementIndex === 3){
+      comboValue = 109;
+      } else if (array[4].level === 8 && array[4].elementIndex === 4){
+      comboValue = 110;
+      } else if (array[4].level === 9 && array[4].elementIndex === 1){
+      comboValue = 111;
+      } else if (array[4].level === 9 && array[4].elementIndex === 2){
+      comboValue = 112;
+      } else if (array[4].level === 9 && array[4].elementIndex === 3){
+      comboValue = 113;
+      } else if (array[4].level === 9 && array[4].elementIndex === 4){
+      comboValue = 114;
+      } else if (array[4].level === 10 && array[4].elementIndex === 1){
+      comboValue = 115;
+      } else if (array[4].level === 10 && array[4].elementIndex === 2){
+      comboValue = 116;
+      } else if (array[4].level === 10 && array[4].elementIndex === 3){
+      comboValue = 117;
+      } else if (array[4].level === 10 && array[4].elementIndex === 4){
+      comboValue = 118;
+      } else if (array[4].level === 11 && array[4].elementIndex === 1){
+      comboValue = 119;
+      } else if (array[4].level === 11 && array[4].elementIndex === 2){
+      comboValue = 120;
+      } else if (array[4].level === 11 && array[4].elementIndex === 3){
+      comboValue = 121;
+      } else if (array[4].level === 11 && array[4].elementIndex === 4){
+      comboValue = 122;
+      } else if (array[4].level === 12 && array[4].elementIndex === 1){
+      comboValue = 123;
+      } else if (array[4].level === 12 && array[4].elementIndex === 2){
+      comboValue = 124;
+      } else if (array[4].level === 12 && array[4].elementIndex === 3){
+      comboValue = 125;
+      } else if (array[4].level === 12 && array[4].elementIndex === 4){
+      comboValue = 126;
+      } else if (array[4].level === 13 && array[4].elementIndex === 1){
+      comboValue = 127;
+      } else if (array[4].level === 13 && array[4].elementIndex === 2){
+      comboValue = 128;
+      } else if (array[4].level === 13 && array[4].elementIndex === 3){
+      comboValue = 129;
+      } else if (array[4].level === 13 && array[4].elementIndex === 4){
+      comboValue = 130;
+      }
   }
   // check for pair
   function checkForPair(array) {
+    console.log("checking for pair!")
     array.sort(compareByLevel);
     if (array[0].level === array[1].level){
       let comboType = "pair";
-      let comboNumber = "2 Card";
+       comboNumber = "2 Card";
       pairValueAssign(array);
     } else {
-      alert("Not a valid pair!")
+      alert("Not a valid pair!");
+      allBuildToDeck();
     }
   }
 
   //check for triple
   function checkForTriple(array) {
+    console.log("checking for triple!")
     array.sort(compareByLevel);
     if (array[0].level === array[1].level === array[2].level){
       let comboType = "triple";
-      let comboNumber = "3 Card";
+       comboNumber = "3 Card";
       tripleValueAssign(array);
     } else {
       alert("Not a valid triple!")
+      allBuildToDeck();
     }
   }
 
   //check for straight
   function checkForStraight(array) {
+    console.log("checking for straight!")
     array.sort(compareByLevel);
-    if (array[0].level + 4 === array[1].level + 3 === array[2].level + 2 === array[3].level + 1 === array[4].level){
+    console.log("straight check:")
+    console.log(array[0].level + 4);
+    console.log(array[1].level + 3);
+    console.log(array[2].level + 2);
+    console.log(array[3].level + 1);
+    console.log(array[4].level);
+    if ((array[0].level + 4) === (array[1].level + 3) === (array[2].level + 2) === (array[3].level + 1) === array[4].level){
   //check for straight flush
       if (array[0].element === array[1].element === array[2].element === array[3].element === array[4].element) {
         let comboType = "Straight Flush";
-        let comboNumber = "5 Card";
+         comboNumber = "5 Card";
         straightFlushValueAssign(array);
       }else{
         let comboType = "Straight";
-        let comboNumber = "5 Card";
+         comboNumber = "5 Card";
         straightValueAssign(array);
       }
     } else {
@@ -1398,9 +1219,16 @@ mapCardsToDeckArea();
 
   //check for flush
   function checkForFlush(array) {
+    console.log("checking for flush!");
+    console.log("flush check:");
+      console.log(array[0].element);
+      console.log(array[1].element);
+      console.log(array[2].element);
+      console.log(array[3].element);
+      console.log(array[4].element);
     if (array[0].element === array[1].element === array[2].element === array[3].element === array[4].element) {
       let comboType = "Flush";
-      let comboNumber = "5 Card";
+       comboNumber = "5 Card";
       flushValueAssign(array);
     } else {
       checkForFullHouse(array);
@@ -1409,14 +1237,15 @@ mapCardsToDeckArea();
 
   //check for full house
   function checkForFullHouse(array) {
+    console.log("checking for full house!")
     array.sort(compareByLevel);
     if ((array[0].level === array[1].level === array[2].level) && (array[3].level === array[4].level)) {
       let comboType = "Full House";
-      let comboNumber = "5 Card";
+       comboNumber = "5 Card";
       fullHouseValueAssign(array);
     } else if ((array[0].level === array[1].level) && (array[2].level === array[3].level === array[4].level)){
       let comboType = "Full House";
-      let comboNumber = "5 Card";
+       comboNumber = "5 Card";
       fullHouseValueAssign(array);
     } else {
       checkForFourOfAKind(array);
@@ -1425,56 +1254,158 @@ mapCardsToDeckArea();
 
   //check for four of a kind
   function checkForFourOfAKind(array) {
+    console.log("checking for four of a kind!")
     array.sort(compareByLevel);
     if (array[0].level === array[1].level === array[2].level === array[3].level)  {
       let comboType = "Four of a kind";
-      let comboNumber = "5 Card";
+       comboNumber = "5 Card";
       fourOfAKindValueAssign(array);
     } else if (array[1].level === array[2].level === array[3].level === array[4].level){
       let comboType = "Four of a kind";
-      let comboNumber = "5 Card";
+       comboNumber = "5 Card";
       fourOfAKindValueAssign(array);
     }else {
       alert("Not a valid five card hand!");
+      allBuildToDeck();
+    }
+  }
+
+  //check if hand played matches ComboNumber of hand previously played
+  function doesHandMatchComboNumber(){
+    console.log("checking for matching combo number!")
+    if (setComboNumber === undefined) {
+      return true;
+    } else if (setComboNumber === ComboNumber) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  //check if hand played is higher than ComboValue of hand previously played
+  function doesHandMatchComboValue(){
+    console.log("checking for higher value!")
+    if (setComboValue === undefined) {
+      return true;
+    } else if (setComboValue < ComboValue) {
+      return true;
+    } else {
+      return false;
     }
   }
 
   //check if hand is valid
-  // function isHandValidCheck(array) {
-  //   if array.length === 0 {
-  //     alert("Hands must be 1, 2, 3, or 5 cards!");
-  //   } else if array.length === 1 {
+  function isHandValidCheck(array) {
+    console.log("checking if hand is valid!")
+    switch (array.length) {
+      case 0:
+        alert("Hands must be 1, 2, 3, or 5 cards!");
+        allBuildToDeck();
+      break;
+      case 1:
+        singleValueAssign(array);
+        if (doesHandMatchComboNumber(array) && doesHandMatchComboValue(array) === true) {
+           setComboNumber = comboNumber;
+           setComboValue = comboValue;
+        } else {
+          alert("You have to play a higher value combination of the same number of cards your opponent played, or say Zimi!");
+          allBuildToDeck();
+        }
+      break;
+      case 2:
+        checkForPair(array);
+        if (doesHandMatchComboNumber(array) && doesHandMatchComboValue(array) === true) {
+           setComboNumber = comboNumber;
+           setComboValue = comboValue;
+          } else {
+          alert("You have to play a higher value combination of the same number of cards your opponent played, or say Zimi!");
+          allBuildToDeck();
+        }
+      break;
+      case 3:
+        checkForTriple(array);
+        if (doesHandMatchComboNumber(array) && doesHandMatchComboValue(array) === true) {
+           setComboNumber = comboNumber;
+           setComboValue = comboValue;
+          } else {
+          alert("You have to play a higher value combination of the same number of cards your opponent played, or say Zimi!");
+          allBuildToDeck();
+        }
+      break;
+      case 4:
+        alert("Hands must be 1, 2, 3, or 5 cards!");
+        allBuildToDeck();
+      break;
+      case 5:
+        checkForStraight(array);
+        if (doesHandMatchComboNumber(array) && doesHandMatchComboValue(array) === true) {
+           setComboNumber = comboNumber;
+           setComboValue = comboValue;
+          } else {
+          alert("You have to play a higher value combination of the same number of cards your opponent played, or say Zimi!");
+          allBuildToDeck();
+        }
+      break;
+      default:
+        alert("This is the default!");
+        allBuildToDeck();
+    }
+  }
 
-  //   } else if array.length === 2 {
+  //check for win function (check your deck array for length, if length 0 you win)
+  function checkForWin(){
+    console.log("checking for win!")
+    if (activeDeck.length === 0) {
+      alert("YOU WIN!");
+      winState = true;
+    } else {
+      endTurn();
+    }
+  }
+  //reset build deck
+  function resetBuildDeck(){
+    build1 = []
+  }
 
-  //   } else if array.length === 3 {
 
-  //   } else if array.length === 4 {
-  //     alert("Hands must be 1, 2, 3, or 5 cards!");
-  //   } else if array.length === 5 {
 
-  //   } else {
-  //     alert("Hands must be 1, 2, 3, or 5 cards!");
-  //   }
-  // }
-
-  //check if hand played matches ComboNumber of hand previously played
-
-  //check if hand played is higher than ComboValue of hand previously played
-
-  //end turn function
-
-  //say Zimi
-  //reset undefined combo variables after someone say Zimi
-  // let setComboValue = undefined;
-  // let setComboNumber = undefined;
 
   //play hand
+  function playHand(){
+  $('button.play').click(function(){
+    console.log("playing hand!")
+    isHandValidCheck(build1);
+    //check for win, then end turn
+    checkForWin();
+    })
+  }
+  playHand();
+
+  //end turn function
+  function endTurn(){
+    console.log("ending turn!")
+    turnCounter ++;
+    resetBuildDeck();
+    // something here about visuals signifying change of player
+    activeDeck = player == "P1" ? deck1 : deck2;
+    runOfTurn();
+  }
+  //say Zimi
+  //reset undefined combo variables after someone says Zimi
+  function sayZimi(){
+    console.log("Zimi!")
+    $('button.zimi').click(function(){
+  // great visual here about saying Zimi! This is the money shot! It's the hot new catchphrase sweeping the nation!
+  setComboValue = undefined;
+  setComboNumber = undefined;
+  allBuildToDeck();
+  endTurn();
+  })
+  }
+    sayZimi();
 
 
-
-  //close startgame function
-
+  //close runOfTurn function
+};
 
 //close jQuery ready function
 });
