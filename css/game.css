@@ -132,16 +132,19 @@ left: 562px;
 background: #aaaaaa;
 border: solid #60b89b 2px;
 }
-.build-area-label {
 
+.build-area-label {
+position: absolute;
+top: 50px;
 }
+
 .build-area-cards{
 height: 150px;
 width: 95px;
 float: left;
 }
 
-#fifth{
+.build-area img:nth-child(5){
   position: relative;
   z-index: 1;
   top: -225px;

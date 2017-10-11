@@ -487,8 +487,21 @@ $(document).ready(function(){
   console.log(deck2);
 
   //map card divs to positions in array deck1
+  function mapCardsToDeckArea(){
   for (i=0; i < deck1.length; i++){
-    $(`#${i}`).html(`<img src= ${deck1[i].thumbnail}></img>`);
+    $(`#${i}`).html(deck1[i].thumbnail ?  `<img src= ${deck1[i].thumbnail}>` : "");
+  }
+}
+mapCardsToDeckArea();
+
+  //map clicked cards to build array
+  function mapCardsToBuildArea(){
+    let buildAreaContent = build1.map(function(card) {
+      return `<img src= ${card.thumbnail}>`
+    } );
+    let buildAreaText = buildAreaContent.join(" ");
+    $('.build-area').html(buildAreaText);
+
   }
 
   //establish build arrays
@@ -496,27 +509,34 @@ $(document).ready(function(){
   let build2 =[];
 
   //select card function
-  function selectCard(){
+  function cardToBuild(){
     $(".card-area").mousedown(function(){
-      console.log(`function for deck1[${this.id}] called!`)
+      let selectedCard = deck1[this.id];
+      build1.push(selectedCard);
+      deck1[this.id] = {};
+      mapCardsToDeckArea();
+      mapCardsToBuildArea();
+
+      console.log(selectedCard);
+      // console.log(`function for deck1[${this.id}] called!`)
     })
   };
-selectCard();
+  cardToBuild();
   //drop card in deck area to reorder deck
   // // function dropReorder(){
   // //   $(".card-area").mouseup(function(){
 
   //   })
   // }
+  // //drag card function - Cutting this out in favor of a more simple "CLICK CARDS IN DECK AREA TO MOVE THEM TO BUILD AREA AND VICE VERSA" thing
+  // function dragCard(){
 
-
-  //drag card function
-  function dragCard(){
-
-  };
+  // };
   //card out of deck area function
 
-  //card into build area function
+  //remove card from build
+
+  //return entire build to deck
 
   //find highest card in array
   function findHighest(array){
@@ -1333,34 +1353,125 @@ selectCard();
       alert("something went screwy");
     }
   }
-  //check for pair
-  // function checkForPair() {
-  //   build1.sort(compareByLevel);
-  //   build1[0].level === build1[1].level ? let comboType = "pair", let comboNumber = "2 Card", pairValueAssign(build1) : alert("Not a valid pair!")
-  // }
+  // check for pair
+  function checkForPair(array) {
+    array.sort(compareByLevel);
+    if (array[0].level === array[1].level){
+      let comboType = "pair";
+      let comboNumber = "2 Card";
+      pairValueAssign(array);
+    } else {
+      alert("Not a valid pair!")
+    }
+  }
 
   //check for triple
+  function checkForTriple(array) {
+    array.sort(compareByLevel);
+    if (array[0].level === array[1].level === array[2].level){
+      let comboType = "triple";
+      let comboNumber = "3 Card";
+      tripleValueAssign(array);
+    } else {
+      alert("Not a valid triple!")
+    }
+  }
 
   //check for straight
-
+  function checkForStraight(array) {
+    array.sort(compareByLevel);
+    if (array[0].level + 4 === array[1].level + 3 === array[2].level + 2 === array[3].level + 1 === array[4].level){
   //check for straight flush
+      if (array[0].element === array[1].element === array[2].element === array[3].element === array[4].element) {
+        let comboType = "Straight Flush";
+        let comboNumber = "5 Card";
+        straightFlushValueAssign(array);
+      }else{
+        let comboType = "Straight";
+        let comboNumber = "5 Card";
+        straightValueAssign(array);
+      }
+    } else {
+      checkForFlush(array);
+    }
+  }
 
   //check for flush
+  function checkForFlush(array) {
+    if (array[0].element === array[1].element === array[2].element === array[3].element === array[4].element) {
+      let comboType = "Flush";
+      let comboNumber = "5 Card";
+      flushValueAssign(array);
+    } else {
+      checkForFullHouse(array);
+    }
+  }
 
   //check for full house
+  function checkForFullHouse(array) {
+    array.sort(compareByLevel);
+    if ((array[0].level === array[1].level === array[2].level) && (array[3].level === array[4].level)) {
+      let comboType = "Full House";
+      let comboNumber = "5 Card";
+      fullHouseValueAssign(array);
+    } else if ((array[0].level === array[1].level) && (array[2].level === array[3].level === array[4].level)){
+      let comboType = "Full House";
+      let comboNumber = "5 Card";
+      fullHouseValueAssign(array);
+    } else {
+      checkForFourOfAKind(array);
+    }
+  }
 
   //check for four of a kind
+  function checkForFourOfAKind(array) {
+    array.sort(compareByLevel);
+    if (array[0].level === array[1].level === array[2].level === array[3].level)  {
+      let comboType = "Four of a kind";
+      let comboNumber = "5 Card";
+      fourOfAKindValueAssign(array);
+    } else if (array[1].level === array[2].level === array[3].level === array[4].level){
+      let comboType = "Four of a kind";
+      let comboNumber = "5 Card";
+      fourOfAKindValueAssign(array);
+    }else {
+      alert("Not a valid five card hand!");
+    }
+  }
 
   //check if hand is valid
+  // function isHandValidCheck(array) {
+  //   if array.length === 0 {
+  //     alert("Hands must be 1, 2, 3, or 5 cards!");
+  //   } else if array.length === 1 {
+
+  //   } else if array.length === 2 {
+
+  //   } else if array.length === 3 {
+
+  //   } else if array.length === 4 {
+  //     alert("Hands must be 1, 2, 3, or 5 cards!");
+  //   } else if array.length === 5 {
+
+  //   } else {
+  //     alert("Hands must be 1, 2, 3, or 5 cards!");
+  //   }
+  // }
+
+  //check if hand played matches ComboNumber of hand previously played
+
+  //check if hand played is higher than ComboValue of hand previously played
+
+  //end turn function
 
   //say Zimi
+  //reset undefined combo variables after someone say Zimi
+  // let setComboValue = undefined;
+  // let setComboNumber = undefined;
 
   //play hand
 
 
-  //remove card from build
-
-  //return entire build to deck
 
   //close startgame function
 
