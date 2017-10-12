@@ -1180,7 +1180,7 @@ mapCardsToDeckArea();
   //assign value to four of a kind
   function fourOfAKindValueAssign(array){
     array.sort(compareByLevel);
-    switch (array[2]){
+    switch (array[2].level){
       case 1:
       comboValue = 82;
       break;
@@ -1308,7 +1308,7 @@ mapCardsToDeckArea();
 
   //check if hand played matches ComboNumber of hand previously played
   function doesHandMatchComboNumber(){
-    console.log("checking for matching combo number!")
+    console.log(`Combo number = ${comboNumber}: checking for matching combo number!`)
     if (setComboNumber === undefined) {
       return true;
     } else if (setComboNumber === ComboNumber) {
@@ -1319,7 +1319,7 @@ mapCardsToDeckArea();
   }
   //check if hand played is higher than ComboValue of hand previously played
   function doesHandMatchComboValue(){
-    console.log("checking for higher value!")
+    console.log(`Combo Value = ${comboValue}: checking for higher value!`)
     if (setComboValue === undefined) {
       return true;
     } else if (setComboValue < ComboValue) {
