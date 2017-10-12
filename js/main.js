@@ -32,9 +32,7 @@ setTimeout(instructionCycle4, 20000);
 setTimeout(instructionCycle5, 25000);
 }
 
-function instructionLoop (){
-
-}
+cycleThroughInstructions();
 
 // $("button.next").on('click', function(){
 // instructionCycle1();

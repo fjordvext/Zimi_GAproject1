@@ -1,6 +1,8 @@
 console.log ("javascript is working!")
 //jQuery ready function
 $(document).ready(function(){
+
+  //PART ONE
   //GLOBAL VARIABLES
   //establish build array
   let build1 = [];
@@ -23,6 +25,9 @@ $(document).ready(function(){
 
   //establish win state
   let winState = false;
+
+  //establish valid hand state
+  let handIsValid = false;
 
   //cards array here
   let cards = [
@@ -444,7 +449,9 @@ $(document).ready(function(){
   },
   ]
 
-  // console.log (cards.length);
+  // PART TWO
+  // FUNCTIONS THAT GO ON BEFORE THE CYCLICAL TURNS BEGIN
+  // THESE WON'T BE REPEATED AND ONLY HAPPEN ONCE AT THE START OF THE GAME
 
   // Shuffling the array cards using the Fisher Yates method (found at https://bost.ocks.org/mike/shuffle/).
   function shuffle(cards) {
@@ -484,7 +491,6 @@ $(document).ready(function(){
   //turn count function here
   function turnCount(){
     turnCounter % 2 === 0 ? player = "P1" : player = "P2"
-    console.log(`turn is now ${player}`)
   }
 
   //when game screen loads, cards are shuffled, deck of 17 cards is dealt to deck1 and deck2 arrays
@@ -498,31 +504,38 @@ $(document).ready(function(){
   }
   //sort deck1
   let deck1 = deck1Unsorted.sort(compareByLevel);
-  console.log(deck1.length);
+  console.log(`deck 1 is ${deck1.length} elements long`);
   console.log(deck1);
   //deal next seventeen cards to deck2
   for (i=17; i < 34; i++) {
     deck2Unsorted.push(cards[i]);
   }
   let deck2 = deck2Unsorted.sort(compareByLevel);
-  console.log(deck2.length);
+  console.log(`deck 2 is ${deck2.length} elements long`);
   console.log(deck2);
 
   let activeDeck = deck1;
 
+  //PART THREE
+  // HERE IS WHERE THE TURN CYCLE BEGINS
+  // FIRST WE MAP THE PLAYER DECK TO THE DECK AREA
+
+
   runOfTurn();
   // put run of turn into a function
   function runOfTurn(){
-    turnCount();
-
 
   //map card divs to positions in array deck1
   function mapCardsToDeckArea(){
   for (i=0; i < activeDeck.length; i++){
     $(`#${i}`).html(activeDeck[i].thumbnail ?  `<img src= ${activeDeck[i].thumbnail}>` : "");
     }
+    $(".deck-title").html(`<h1> ${player} DECK <h1>`)
   }
 mapCardsToDeckArea();
+
+  // THIS IS WHERE WE PUT THE FUNCTIONS THAT DEAL WITH THE BUILD AREA
+  // THIS IS CURRENTLY ALL FUCKED THE FUCK UP
 
   //map clicked cards to build array
   function mapCardsToBuildArea(){
@@ -533,8 +546,6 @@ mapCardsToDeckArea();
     $('.build-area').html(buildAreaText);
 
   }
-
-
 
   //select card function
   function cardToBuild(){
@@ -551,17 +562,6 @@ mapCardsToDeckArea();
     })
   };
   cardToBuild();
-  //drop card in deck area to reorder deck
-  // // function dropReorder(){
-  // //   $(".card-area").mouseup(function(){
-
-  //   })
-  // }
-  // //drag card function - Cutting this out in favor of a more simple "CLICK CARDS IN DECK AREA TO MOVE THEM TO BUILD AREA AND VICE VERSA" thing
-  // function dragCard(){
-
-  // };
-  //card out of deck area function
 
   //remove card from build
   function cardFromBuildToDeck(){
@@ -578,7 +578,7 @@ mapCardsToDeckArea();
     })
   };
   cardFromBuildToDeck();
-  //return entire build to deck - UGH, maybe later
+  //return entire build to deck
   function allBuildToDeck(){
     for (i=0; i < build1.length; i++){
       activeDeck.push(build1[i]);
@@ -586,12 +586,147 @@ mapCardsToDeckArea();
       mapCardsToBuildArea();
       mapCardsToDeckArea();
   }
+  //reset build deck
+  function resetBuildDeck(){
+    console.log("clearing build deck!")
+    build1 = [];
+    $(".build-area").html('<div class = "build-area-label"><h2> CLICK CARDS TO BUILD YOUR </br> 1, 2, 3, OR 5 </br>CARD HAND HERE</h2></div><div class = "build-area-cards" id = "first" data-build-index = "1"> </div><div class = "build-area-cards" id = "second" data-build-index = "2"></div><div class = "build-area-cards" id = "third" data-build-index = "3"></div><div class = "build-area-cards" id = "fourth" data-build-index = "4"></div><div class = "build-area-cards" id = "fifth" data-build-index = "5">  </div>')
+  }
 
   //find highest card in array - didn't end up using this?
   function findHighest(array){
     array.sort(compareByLevel);
     return array[array.length - 1]
   }
+
+  //PART FOUR
+  // THIS IS THE GAME LOGIC, ESSENTIALLY THE RULES OF POKER
+  // THIS IS WHERE I DEFINE WHAT COMPRISES EACH COMBO OF CARDS
+
+  //Note: don't have to define singles
+
+  // check for pair
+  function checkForPair(array) {
+    console.log("checking for pair!")
+    array.sort(compareByLevel);
+    if (array[0].level === array[1].level){
+      console.log("pair detected!")
+      let comboType = "pair";
+       comboNumber = "2 Card";
+      pairValueAssign(array);
+      return handIsValid = true;
+    } else {
+      alert("Not a valid pair!");
+      allBuildToDeck();
+    }
+  }
+
+  //check for triple
+  function checkForTriple(array) {
+    console.log("checking for triple!")
+    array.sort(compareByLevel);
+    if ((array[0].level === array[1].level) && (array[0].level === array[2].level)){
+      console.log("triple detected!")
+      let comboType = "triple";
+       comboNumber = "3 Card";
+      tripleValueAssign(array);
+      return handIsValid = true;
+    } else {
+      alert("Not a valid triple!")
+      allBuildToDeck();
+    }
+  }
+
+  //check for straight
+  function checkForStraight(array) {
+    console.log("checking for straight!")
+    array.sort(compareByLevel);
+    console.log("straight check:")
+    if (array[4].level == (array[0].level + 4) && array[4].level === (array[1].level + 3) && array[4].level === (array[2].level + 2) && array[4].level === (array[3].level + 1)){
+      console.log("Straight detected!")
+  //check for straight flush
+      if (array[0].element == array[1].element && array[0].element == array[2].element  && array[0].element == array[3].element  && array[0].element ==  array[4].element) {
+         console.log("Straight flush detected!")
+         let comboType = "Straight Flush";
+         comboNumber = "5 Card";
+        straightFlushValueAssign(array);
+         return handIsValid = true;
+      }else{
+        let comboType = "Straight";
+         comboNumber = "5 Card";
+        straightValueAssign(array);
+         return handIsValid = true;
+      }
+    } else {
+      checkForFlush(array);
+    }
+  }
+
+  //check for flush
+  function checkForFlush(array) {
+    console.log("checking for flush!");
+    console.log("flush check:");
+      console.log(array[0].element);
+      console.log(array[1].element);
+      console.log(array[2].element);
+      console.log(array[3].element);
+      console.log(array[4].element);
+    if (array[0].element == array[1].element && array[0].element == array[2].element  && array[0].element == array[3].element  && array[0].element ==  array[4].element) {
+      console.log("Flush detected!" )
+      let comboType = "Flush";
+       comboNumber = "5 Card";
+      flushValueAssign(array);
+       return handIsValid = true;
+    } else {
+      checkForFullHouse(array);
+    }
+  }
+
+  //check for full house
+  function checkForFullHouse(array) {
+    console.log("checking for full house!")
+    array.sort(compareByLevel);
+    if (((array[0].level === array[1].level) && (array[0].level === array[2].level)) && (array[3].level === array[4].level)) {
+      console.log("Full house detected!")
+      let comboType = "Full House";
+       comboNumber = "5 Card";
+      fullHouseValueAssign(array);
+       return handIsValid = true;
+    } else if ((array[0].level === array[1].level) && ((array[2].level === array[3].level)) && (array[2].level === array[4].level)){
+      console.log("Full house detected!")
+      let comboType = "Full House";
+       comboNumber = "5 Card";
+      fullHouseValueAssign(array);
+       return handIsValid = true;
+    } else {
+      checkForFourOfAKind(array);
+    }
+  }
+
+  //check for four of a kind
+  function checkForFourOfAKind(array) {
+    console.log("checking for four of a kind!")
+    array.sort(compareByLevel);
+    if ((array[0].level === array[1].level) && (array[0].level === array[2].level) && (array[0].level === array[3].level))  {
+      console.log("Four of a kind detected!")
+      let comboType = "Four of a kind";
+       comboNumber = "5 Card";
+      fourOfAKindValueAssign(array);
+       return handIsValid = true;
+    } else if ((array[1].level === array[2].level) && (array[1].level === array[3].level) && (array[1].level === array[4].level)){
+      console.log("Four of a kind detected!")
+      let comboType = "Four of a kind";
+       comboNumber = "5 Card";
+      fourOfAKindValueAssign(array);
+       return handIsValid = true;
+    }else {
+      alert("Not a valid five card hand!");
+      allBuildToDeck();
+    }
+  }
+
+  //AND THIS IS WHERE I DEFINE HAND VALUES
+  // I'M DEFINING 247 DISTINCT (52 SINGLE, 39 PAIR, 26 TRIPLE, 130 FIVE CARD) HAND VALUES
 
   //assign value to single
   function singleValueAssign(array){
@@ -939,6 +1074,7 @@ mapCardsToDeckArea();
       comboValue = 43;
     }else if (array[4].level === 13 && array[4].elementIndex === 1){
       comboValue = 44;
+      console.log ("flush flag one");
     }else if (array[4].level === 6 && array[4].elementIndex === 2){
       comboValue = 45;
     }else if (array[4].level === 7 && array[4].elementIndex === 2){
@@ -955,6 +1091,7 @@ mapCardsToDeckArea();
       comboValue = 51;
     }else if (array[4].level === 13 && array[4].elementIndex === 2){
       comboValue = 52;
+      console.log ("flush flag two");
     }else if (array[4].level === 6 && array[4].elementIndex === 3){
       comboValue = 53;
     }else if (array[4].level === 7 && array[4].elementIndex === 3){
@@ -971,6 +1108,7 @@ mapCardsToDeckArea();
       comboValue = 59;
     }else if (array[4].level === 13 && array[4].elementIndex === 3){
       comboValue = 60;
+      console.log ("flush flag three");
     }else if (array[4].level === 6 && array[4].elementIndex === 4){
       comboValue = 61;
     }else if (array[4].level === 7 && array[4].elementIndex === 4){
@@ -987,6 +1125,7 @@ mapCardsToDeckArea();
       comboValue = 67;
     }else if (array[4].level === 13 && array[4].elementIndex === 4){
       comboValue = 68;
+      console.log ("flush flag four");
     }
   }
 
@@ -1163,112 +1302,9 @@ mapCardsToDeckArea();
       comboValue = 130;
       }
   }
-  // check for pair
-  function checkForPair(array) {
-    console.log("checking for pair!")
-    array.sort(compareByLevel);
-    if (array[0].level === array[1].level){
-      let comboType = "pair";
-       comboNumber = "2 Card";
-      pairValueAssign(array);
-    } else {
-      alert("Not a valid pair!");
-      allBuildToDeck();
-    }
-  }
 
-  //check for triple
-  function checkForTriple(array) {
-    console.log("checking for triple!")
-    array.sort(compareByLevel);
-    if (array[0].level === array[1].level === array[2].level){
-      let comboType = "triple";
-       comboNumber = "3 Card";
-      tripleValueAssign(array);
-    } else {
-      alert("Not a valid triple!")
-      allBuildToDeck();
-    }
-  }
-
-  //check for straight
-  function checkForStraight(array) {
-    console.log("checking for straight!")
-    array.sort(compareByLevel);
-    console.log("straight check:")
-    console.log(array[0].level + 4);
-    console.log(array[1].level + 3);
-    console.log(array[2].level + 2);
-    console.log(array[3].level + 1);
-    console.log(array[4].level);
-    if ((array[0].level + 4) === (array[1].level + 3) === (array[2].level + 2) === (array[3].level + 1) === array[4].level){
-  //check for straight flush
-      if (array[0].element === array[1].element === array[2].element === array[3].element === array[4].element) {
-        let comboType = "Straight Flush";
-         comboNumber = "5 Card";
-        straightFlushValueAssign(array);
-      }else{
-        let comboType = "Straight";
-         comboNumber = "5 Card";
-        straightValueAssign(array);
-      }
-    } else {
-      checkForFlush(array);
-    }
-  }
-
-  //check for flush
-  function checkForFlush(array) {
-    console.log("checking for flush!");
-    console.log("flush check:");
-      console.log(array[0].element);
-      console.log(array[1].element);
-      console.log(array[2].element);
-      console.log(array[3].element);
-      console.log(array[4].element);
-    if (array[0].element === array[1].element === array[2].element === array[3].element === array[4].element) {
-      let comboType = "Flush";
-       comboNumber = "5 Card";
-      flushValueAssign(array);
-    } else {
-      checkForFullHouse(array);
-    }
-  }
-
-  //check for full house
-  function checkForFullHouse(array) {
-    console.log("checking for full house!")
-    array.sort(compareByLevel);
-    if ((array[0].level === array[1].level === array[2].level) && (array[3].level === array[4].level)) {
-      let comboType = "Full House";
-       comboNumber = "5 Card";
-      fullHouseValueAssign(array);
-    } else if ((array[0].level === array[1].level) && (array[2].level === array[3].level === array[4].level)){
-      let comboType = "Full House";
-       comboNumber = "5 Card";
-      fullHouseValueAssign(array);
-    } else {
-      checkForFourOfAKind(array);
-    }
-  }
-
-  //check for four of a kind
-  function checkForFourOfAKind(array) {
-    console.log("checking for four of a kind!")
-    array.sort(compareByLevel);
-    if (array[0].level === array[1].level === array[2].level === array[3].level)  {
-      let comboType = "Four of a kind";
-       comboNumber = "5 Card";
-      fourOfAKindValueAssign(array);
-    } else if (array[1].level === array[2].level === array[3].level === array[4].level){
-      let comboType = "Four of a kind";
-       comboNumber = "5 Card";
-      fourOfAKindValueAssign(array);
-    }else {
-      alert("Not a valid five card hand!");
-      allBuildToDeck();
-    }
-  }
+  //PART FIVE
+  //THESE FUNCTIONS ARE WHERE WE DEFINE IF THE CURRENT MOVE IS VALID (I.E., HIGHER THAN THE LAST ONE PLAYED)
 
   //check if hand played matches ComboNumber of hand previously played
   function doesHandMatchComboNumber(){
@@ -1299,7 +1335,6 @@ mapCardsToDeckArea();
     switch (array.length) {
       case 0:
         alert("Hands must be 1, 2, 3, or 5 cards!");
-        allBuildToDeck();
       break;
       case 1:
         singleValueAssign(array);
@@ -1351,6 +1386,21 @@ mapCardsToDeckArea();
     }
   }
 
+  //PART SIX
+  //THESE FUNCTIONS DEAL WITH THE END OF A TURN, WHEN A PLAYER EITHER PLAYS HIS HAND OR GIVES HIS OPPONENT A FREE MOVE
+
+  //play hand
+  function playHand(){
+  $('button.play').click(function(){
+    console.log("playing hand!")
+    console.log(build1);
+    isHandValidCheck(build1);
+    //check for win, then end turn
+    checkForWin();
+    })
+  }
+  playHand();
+
   //check for win function (check your deck array for length, if length 0 you win)
   function checkForWin(){
     console.log("checking for win!")
@@ -1361,39 +1411,24 @@ mapCardsToDeckArea();
       endTurn();
     }
   }
-  //reset build deck
-  function resetBuildDeck(){
-    build1 = []
-  }
-
-
-
-
-  //play hand
-  function playHand(){
-  $('button.play').click(function(){
-    console.log("playing hand!")
-    isHandValidCheck(build1);
-    //check for win, then end turn
-    checkForWin();
-    })
-  }
-  playHand();
 
   //end turn function
   function endTurn(){
     console.log("ending turn!")
     turnCounter ++;
+    turnCount();
     resetBuildDeck();
     // something here about visuals signifying change of player
     activeDeck = player == "P1" ? deck1 : deck2;
+    handIsValid = false;
     runOfTurn();
   }
+
   //say Zimi
   //reset undefined combo variables after someone says Zimi
   function sayZimi(){
-    console.log("Zimi!")
     $('button.zimi').click(function(){
+    console.log("Zimi!")
   // great visual here about saying Zimi! This is the money shot! It's the hot new catchphrase sweeping the nation!
   setComboValue = undefined;
   setComboNumber = undefined;
