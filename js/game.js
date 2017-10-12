@@ -524,6 +524,7 @@ $(document).ready(function(){
   runOfTurn();
   // put run of turn into a function
   function runOfTurn(){
+    console.log(build1);
 
   //map card divs to positions in array deck1
   function mapCardsToDeckArea(){
