@@ -516,38 +516,6 @@ $(document).ready(function(){
 
   let activeDeck = deck1;
 
-  //PART THREE
-  // HERE IS WHERE THE TURN CYCLE BEGINS
-  // FIRST WE MAP THE PLAYER DECK TO THE DECK AREA
-
-
-  runOfTurn();
-  // put run of turn into a function
-  function runOfTurn(){
-    console.log(build1);
-
-  //map card divs to positions in array deck1
-  function mapCardsToDeckArea(){
-  for (i=0; i < activeDeck.length; i++){
-    $(`#${i}`).html(activeDeck[i].thumbnail ?  `<img src= ${activeDeck[i].thumbnail}>` : "");
-    }
-    $(".deck-title").html(`<h1> ${player} DECK <h1>`)
-  }
-mapCardsToDeckArea();
-
-  // THIS IS WHERE WE PUT THE FUNCTIONS THAT DEAL WITH THE BUILD AREA
-  // THIS IS CURRENTLY ALL FUCKED THE FUCK UP
-
-  //map clicked cards to build array
-  function mapCardsToBuildArea(){
-    let buildAreaContent = build1.map(function(card) {
-      return `<img src= ${card.thumbnail}>`
-    } );
-    let buildAreaText = buildAreaContent.join(" ");
-    $('.build-area').html(buildAreaText);
-
-  }
-
   //select card function
   function cardToBuild(){
     $(".card-area").mousedown(function(){
@@ -564,6 +532,16 @@ mapCardsToDeckArea();
   };
   cardToBuild();
 
+  //map clicked cards to build array
+  function mapCardsToBuildArea(){
+    let buildAreaContent = build1.map(function(card) {
+      return `<img src= ${card.thumbnail}>`
+    } );
+    let buildAreaText = buildAreaContent.join(" ");
+    $('.build-area').html(buildAreaText);
+
+  }
+
   //remove card from build
   function cardFromBuildToDeck(){
     $(".build-area").mousedown(function(){
@@ -579,11 +557,18 @@ mapCardsToDeckArea();
     })
   };
   cardFromBuildToDeck();
+
   //return entire build to deck
   function allBuildToDeck(){
-    for (i=0; i < build1.length; i++){
-      activeDeck.push(build1[i]);
-    };
+    // TODO: find more elegant solution
+    activeDeck = activeDeck.filter(function(card) {
+      return card.level
+    }).concat(build1)
+    build1 = [];
+    activeDeck.sort(compareByLevel);
+    // for (i=0; i < build1.length; i++){
+    //   activeDeck.push(build1[i]);
+    // };
       mapCardsToBuildArea();
       mapCardsToDeckArea();
   }
@@ -593,6 +578,150 @@ mapCardsToDeckArea();
     build1 = [];
     $(".build-area").html('<div class = "build-area-label"><h2> CLICK CARDS TO BUILD YOUR </br> 1, 2, 3, OR 5 </br>CARD HAND HERE</h2></div><div class = "build-area-cards" id = "first" data-build-index = "1"> </div><div class = "build-area-cards" id = "second" data-build-index = "2"></div><div class = "build-area-cards" id = "third" data-build-index = "3"></div><div class = "build-area-cards" id = "fourth" data-build-index = "4"></div><div class = "build-area-cards" id = "fifth" data-build-index = "5">  </div>')
   }
+  //map card divs to positions in array deck1
+  function mapCardsToDeckArea(){
+  for (i=0; i < activeDeck.length; i++){
+    $(`#${i}`).html(activeDeck[i].thumbnail ?  `<img src= ${activeDeck[i].thumbnail}>` : "");
+    }
+    $(".deck-title").html(`<h1> ${player} DECK <h1>`)
+  }
+
+  //check if hand played matches ComboNumber of hand previously played
+  function doesHandMatchComboNumber(){
+    console.log(`Combo number = ${comboNumber}: checking for matching combo number!`)
+    if (setComboNumber === undefined) {
+      return true;
+    } else if (setComboNumber === comboNumber) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  //check if hand played is higher than ComboValue of hand previously played
+  function doesHandMatchComboValue(){
+    console.log(`Combo Value = ${comboValue}: checking for higher value!`)
+    if (setComboValue === undefined) {
+      return true;
+    } else if (setComboValue < comboValue) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  //check if hand is valid
+  function isHandValidCheck(array) {
+    console.log("checking if hand is valid!")
+    switch (array.length) {
+      case 0:
+        alert("Hands must be 1, 2, 3, or 5 cards!");
+      break;
+      case 1:
+        singleValueAssign(array);
+        if (doesHandMatchComboNumber(array) && doesHandMatchComboValue(array) === true) {
+           setComboNumber = comboNumber;
+           setComboValue = comboValue;
+        } else {
+          alert("You have to play a higher value combination of the same number of cards your opponent played, or say Zimi!");
+          allBuildToDeck();
+        }
+      break;
+      case 2:
+        checkForPair(array);
+        if (doesHandMatchComboNumber(array) && doesHandMatchComboValue(array) === true) {
+           setComboNumber = comboNumber;
+           setComboValue = comboValue;
+          } else {
+          alert("You have to play a higher value combination of the same number of cards your opponent played, or say Zimi!");
+          allBuildToDeck();
+        }
+      break;
+      case 3:
+        checkForTriple(array);
+        if (doesHandMatchComboNumber(array) && doesHandMatchComboValue(array) === true) {
+           setComboNumber = comboNumber;
+           setComboValue = comboValue;
+          } else {
+          alert("You have to play a higher value combination of the same number of cards your opponent played, or say Zimi!");
+          allBuildToDeck();
+        }
+      break;
+      case 4:
+        alert("Hands must be 1, 2, 3, or 5 cards!");
+        allBuildToDeck();
+      break;
+      case 5:
+        checkForStraight(array);
+        if (doesHandMatchComboNumber(array) && doesHandMatchComboValue(array) === true) {
+           setComboNumber = comboNumber;
+           setComboValue = comboValue;
+          } else {
+          alert("You have to play a higher value combination of the same number of cards your opponent played, or say Zimi!");
+          allBuildToDeck();
+        }
+      break;
+      default:
+        alert("This is the default!");
+        allBuildToDeck();
+    }
+  }
+
+  //play hand
+  function playHand(){
+  $('button.play').click(function(){
+    console.log("playing hand!")
+    console.log(build1);
+    isHandValidCheck(build1);
+    //check for win, then end turn
+    checkForWin();
+    })
+  }
+  playHand();
+
+  //check for win function (check your deck array for length, if length 0 you win)
+  function checkForWin(){
+    console.log("checking for win!")
+    if (activeDeck.length === 0) {
+      alert("YOU WIN!");
+      winState = true;
+    } else {
+      if (build1.length === 0) {
+        return
+      }
+      endTurn();
+    }
+  }
+
+  //end turn function
+  function endTurn(){
+    console.log("ending turn!")
+    turnCounter ++;
+    turnCount();
+    resetBuildDeck();
+    // something here about visuals signifying change of player
+    activeDeck = player == "P1" ? deck1 : deck2;
+    handIsValid = false;
+    console.log(player);
+    runOfTurn();
+  }
+
+  //say Zimi
+  //reset undefined combo variables after someone says Zimi
+  function sayZimi(){
+    $('button.zimi').click(function(){
+    console.log("Zimi!")
+  // great visual here about saying Zimi! This is the money shot! It's the hot new catchphrase sweeping the nation!
+  setComboValue = undefined;
+  setComboNumber = undefined;
+  allBuildToDeck();
+  endTurn();
+  })
+  }
+    sayZimi();
+
+
+
+
 
   //find highest card in array - didn't end up using this?
   function findHighest(array){
@@ -1303,141 +1432,24 @@ mapCardsToDeckArea();
       comboValue = 130;
       }
   }
+ //PART THREE
+  // HERE IS WHERE THE TURN CYCLE BEGINS
+  // FIRST WE MAP THE PLAYER DECK TO THE DECK AREA
 
   //PART FIVE
   //THESE FUNCTIONS ARE WHERE WE DEFINE IF THE CURRENT MOVE IS VALID (I.E., HIGHER THAN THE LAST ONE PLAYED)
 
-  //check if hand played matches ComboNumber of hand previously played
-  function doesHandMatchComboNumber(){
-    console.log(`Combo number = ${comboNumber}: checking for matching combo number!`)
-    if (setComboNumber === undefined) {
-      return true;
-    } else if (setComboNumber === ComboNumber) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-  //check if hand played is higher than ComboValue of hand previously played
-  function doesHandMatchComboValue(){
-    console.log(`Combo Value = ${comboValue}: checking for higher value!`)
-    if (setComboValue === undefined) {
-      return true;
-    } else if (setComboValue < ComboValue) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  //check if hand is valid
-  function isHandValidCheck(array) {
-    console.log("checking if hand is valid!")
-    switch (array.length) {
-      case 0:
-        alert("Hands must be 1, 2, 3, or 5 cards!");
-      break;
-      case 1:
-        singleValueAssign(array);
-        if (doesHandMatchComboNumber(array) && doesHandMatchComboValue(array) === true) {
-           setComboNumber = comboNumber;
-           setComboValue = comboValue;
-        } else {
-          alert("You have to play a higher value combination of the same number of cards your opponent played, or say Zimi!");
-          allBuildToDeck();
-        }
-      break;
-      case 2:
-        checkForPair(array);
-        if (doesHandMatchComboNumber(array) && doesHandMatchComboValue(array) === true) {
-           setComboNumber = comboNumber;
-           setComboValue = comboValue;
-          } else {
-          alert("You have to play a higher value combination of the same number of cards your opponent played, or say Zimi!");
-          allBuildToDeck();
-        }
-      break;
-      case 3:
-        checkForTriple(array);
-        if (doesHandMatchComboNumber(array) && doesHandMatchComboValue(array) === true) {
-           setComboNumber = comboNumber;
-           setComboValue = comboValue;
-          } else {
-          alert("You have to play a higher value combination of the same number of cards your opponent played, or say Zimi!");
-          allBuildToDeck();
-        }
-      break;
-      case 4:
-        alert("Hands must be 1, 2, 3, or 5 cards!");
-        allBuildToDeck();
-      break;
-      case 5:
-        checkForStraight(array);
-        if (doesHandMatchComboNumber(array) && doesHandMatchComboValue(array) === true) {
-           setComboNumber = comboNumber;
-           setComboValue = comboValue;
-          } else {
-          alert("You have to play a higher value combination of the same number of cards your opponent played, or say Zimi!");
-          allBuildToDeck();
-        }
-      break;
-      default:
-        alert("This is the default!");
-        allBuildToDeck();
-    }
-  }
 
   //PART SIX
   //THESE FUNCTIONS DEAL WITH THE END OF A TURN, WHEN A PLAYER EITHER PLAYS HIS HAND OR GIVES HIS OPPONENT A FREE MOVE
 
-  //play hand
-  function playHand(){
-  $('button.play').click(function(){
-    console.log("playing hand!")
+  runOfTurn();
+  // put run of turn into a function
+  function runOfTurn(){
     console.log(build1);
-    isHandValidCheck(build1);
-    //check for win, then end turn
-    checkForWin();
-    })
-  }
-  playHand();
 
-  //check for win function (check your deck array for length, if length 0 you win)
-  function checkForWin(){
-    console.log("checking for win!")
-    if (activeDeck.length === 0) {
-      alert("YOU WIN!");
-      winState = true;
-    } else {
-      endTurn();
-    }
-  }
+  mapCardsToDeckArea();
 
-  //end turn function
-  function endTurn(){
-    console.log("ending turn!")
-    turnCounter ++;
-    turnCount();
-    resetBuildDeck();
-    // something here about visuals signifying change of player
-    activeDeck = player == "P1" ? deck1 : deck2;
-    handIsValid = false;
-    runOfTurn();
-  }
-
-  //say Zimi
-  //reset undefined combo variables after someone says Zimi
-  function sayZimi(){
-    $('button.zimi').click(function(){
-    console.log("Zimi!")
-  // great visual here about saying Zimi! This is the money shot! It's the hot new catchphrase sweeping the nation!
-  setComboValue = undefined;
-  setComboNumber = undefined;
-  allBuildToDeck();
-  endTurn();
-  })
-  }
-    sayZimi();
 
 
   //close runOfTurn function
