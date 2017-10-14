@@ -41,6 +41,9 @@ $(document).ready(function(){
   //establish win state
   let winState = false;
 
+  //establish if Zimi was said
+  let zimiSaid = false
+
   //establish valid hand state
   let handIsValid = false;
 
@@ -518,15 +521,11 @@ $(document).ready(function(){
   }
   //sort deck1
   let deck1 = deck1Unsorted.sort(compareByLevel);
-  console.log(`deck 1 is ${deck1.length} elements long`);
-  console.log(deck1);
   //deal next seventeen cards to deck2
   for (i=17; i < 34; i++) {
     deck2Unsorted.push(cards[i]);
   }
   let deck2 = deck2Unsorted.sort(compareByLevel);
-  console.log(`deck 2 is ${deck2.length} elements long`);
-  console.log(deck2);
 
   let activeDeck = deck1;
 
@@ -596,7 +595,13 @@ $(document).ready(function(){
   function resetBuildDeck(){
     console.log("clearing build deck!")
     build1 = [];
+    if (zimiSaid === true){
+      $(".build-area").html('<div class = "build-area-label"><h2> CLICK CARDS TO BUILD YOUR </br> 1, 2, 3, OR 5 </br>CARD HAND HERE</h2></div><div class = "build-area-cards" id = "first" data-build-index = "1"> </div><div class = "build-area-cards" id = "second" data-build-index = "2"></div><div class = "build-area-cards" id = "third" data-build-index = "3"></div><div class = "build-area-cards" id = "fourth" data-build-index = "4"></div><div class = "build-area-cards" id = "fifth" data-build-index = "5">  </div>')
+    } else if (comboToBeat = undefined){
     $(".build-area").html('<div class = "build-area-label"><h2> CLICK CARDS TO BUILD YOUR </br> 1, 2, 3, OR 5 </br>CARD HAND HERE</h2></div><div class = "build-area-cards" id = "first" data-build-index = "1"> </div><div class = "build-area-cards" id = "second" data-build-index = "2"></div><div class = "build-area-cards" id = "third" data-build-index = "3"></div><div class = "build-area-cards" id = "fourth" data-build-index = "4"></div><div class = "build-area-cards" id = "fifth" data-build-index = "5">  </div>')
+    } else {
+    $(".build-area").html(`<div class = "build-area-label"><h2> ${comboToBeatMessage}</h2></div><div class = "build-area-cards" id = "first" data-build-index = "1"> </div><div class = "build-area-cards" id = "second" data-build-index = "2"></div><div class = "build-area-cards" id = "third" data-build-index = "3"></div><div class = "build-area-cards" id = "fourth" data-build-index = "4"></div><div class = "build-area-cards" id = "fifth" data-build-index = "5">  </div>`)
+    };
   }
   //map card divs to positions in array deck1
   function mapCardsToDeckArea(){
@@ -1583,17 +1588,19 @@ $(document).ready(function(){
     switch (array.length) {
       case 0:
         alert("Hands must be 1, 2, 3, or 5 cards!");
+        return;
       break;
       case 1:
         singleValueAssign(array);
         if (doesHandMatchComboNumber(array) && doesHandMatchComboValue(array) === true) {
            setComboNumber = comboNumber;
            setComboValue = comboValue;
-           comboToBeatMessage = `Card to beat is ${comboToBeat}!`;
+           comboToBeatMessage = `Card to beat is </br> ${comboToBeat}!`;
            console.log(comboToBeatMessage);
         } else {
           alert("You have to play a higher value combination of the same number of cards your opponent played, or say Zimi!");
           allBuildToDeck();
+          return;
         }
       break;
       case 2:
@@ -1601,11 +1608,12 @@ $(document).ready(function(){
         if (doesHandMatchComboNumber(array) && doesHandMatchComboValue(array) === true) {
            setComboNumber = comboNumber;
            setComboValue = comboValue;
-           comboToBeatMessage = `Combo to beat is ${comboToBeat}!`;
+           comboToBeatMessage = `Combo to beat is </br> ${comboToBeat}!`;
            console.log(comboToBeatMessage);
           } else {
           alert("You have to play a higher value combination of the same number of cards your opponent played, or say Zimi!");
           allBuildToDeck();
+          return;
         }
       break;
       case 3:
@@ -1613,11 +1621,12 @@ $(document).ready(function(){
         if (doesHandMatchComboNumber(array) && doesHandMatchComboValue(array) === true) {
            setComboNumber = comboNumber;
            setComboValue = comboValue;
-           comboToBeatMessage = `Combo to beat is ${comboToBeat}!`;
+           comboToBeatMessage = `Combo to beat is </br> ${comboToBeat}!`;
            console.log(comboToBeatMessage);
           } else {
           alert("You have to play a higher value combination of the same number of cards your opponent played, or say Zimi!");
           allBuildToDeck();
+          return;
         }
       break;
       case 4:
@@ -1629,16 +1638,18 @@ $(document).ready(function(){
         if (doesHandMatchComboNumber(array) && doesHandMatchComboValue(array) === true) {
            setComboNumber = comboNumber;
            setComboValue = comboValue;
-           comboToBeatMessage = `Combo to beat is ${comboToBeat}!`;
+           comboToBeatMessage = `Combo to beat is </br> ${comboToBeat}!`;
            console.log(comboToBeatMessage);
           } else {
           alert("You have to play a higher value combination of the same number of cards your opponent played, or say Zimi!");
           allBuildToDeck();
+          return;
         }
       break;
       default:
         alert("This is the default!");
         allBuildToDeck();
+        return;
     }
   }
 
@@ -1652,7 +1663,7 @@ $(document).ready(function(){
     console.log("playing hand!")
     console.log(build1);
     isHandValidCheck(build1);
-    //check for win, then end turn
+    zimiSaid = false;
     checkForWin();
     })
   }
@@ -1695,6 +1706,7 @@ $(document).ready(function(){
   setComboNumber = undefined;
   comboToBeat = undefined;
   comboToBeatMessage = undefined;
+  zimiSaid = true;
   allBuildToDeck();
   endTurn();
   })
