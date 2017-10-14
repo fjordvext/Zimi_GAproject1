@@ -150,3 +150,19 @@ float: left;
   top: -225px;
   right: -47.5px;
 }
+
+.five-card-image-container {
+  position: absolute;
+  height: 250px;
+  width: 735px;
+  top: 60px;
+  left: 40px;
+  padding-top: 10px;
+}
+
+.five-card-image-position {
+  float: left;
+  width: 140px;
+  height: 224px;
+  margin: 3px;
+}
