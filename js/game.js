@@ -38,8 +38,9 @@ $(document).ready(function(){
   let comboToBeat;
   let comboToBeatMessage;
 
-  //establish win state
+  //establish win state and win checker
   let winState = false;
+  let winChecker = 0;
 
   //establish if Zimi was said
   let zimiSaid = false
@@ -1672,7 +1673,11 @@ $(document).ready(function(){
   //check for win function (check your deck array for length, if length 0 you win)
   function checkForWin(){
     console.log("checking for win!")
-    if (activeDeck.length === 0) {
+    for (i=0; i<activeDeck.length; i++) {
+    if (activeDeck[i].level > 0) {
+      winChecker++;
+      }};
+      if (winChecker === 0) {
       alert("YOU WIN!");
       winState = true;
     } else {
@@ -1692,6 +1697,7 @@ $(document).ready(function(){
     // something here about visuals signifying change of player
     activeDeck = player == "P1" ? deck1 : deck2;
     handIsValid = false;
+    winChecker = 0;
     console.log(player);
     runOfTurn();
   }
