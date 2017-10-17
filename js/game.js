@@ -2,12 +2,9 @@ console.log ("javascript is working!")
 //jQuery ready function
 $(document).ready(function(){
 
-  //TODO: FINISH ENTERING IN COMBOTOBEAT AND INPUT COMBOTOBEATMESSAGE IN HAND CHECKS
   //TODO: ADD IN CARD IMAGES TO CARDS
   //TODO: DISPLAY CARD IMAGES WHEN HAND IS PLAYED
-  //TODO: FIX WIN MECHANICS
-  //TODO: FIX BUILD AREA BACK TO DECK MECHANICS
-  //TODO: FIX OPENING CARD 5 GLITCH
+  //TODO: FIX BUILD AREA BACK TO DECK MECHANICS - BUILD BUTTON?
   //TODO: FIX GLITCH WHERE PUTTING CARDS BACK IN DECK DOUBLES THEM UP
   //TODO: ADD TEXT EFFECTS
   //TODO: ANIMATE ZEPHYR
@@ -55,7 +52,7 @@ $(document).ready(function(){
   level: 1,
   element: "Crystal",
   elementIndex: 1,
-  image: "",
+  image: "./images/Zimi_c1.png",
   thumbnail: "./images/c1thumb.png",
   },
   {
@@ -63,7 +60,7 @@ $(document).ready(function(){
   level: 1,
   element: "Wind",
   elementIndex: 2,
-  image: "",
+  image: "./images/Zimi_w1.png",
   thumbnail: "./images/w1thumb.png",
   },
   {
@@ -71,7 +68,7 @@ $(document).ready(function(){
   level: 1,
   element: "Poison",
   elementIndex: 3,
-  image: "",
+  image: "./images/Zimi_p1.png",
   thumbnail: "./images/p1thumb.png",
   },
   {
@@ -79,7 +76,7 @@ $(document).ready(function(){
   level: 1,
   element: "Magic",
   elementIndex: 4,
-  image: "",
+  image: "./images/Zimi_m1.png",
   thumbnail: "./images/m1thumb.png",
   },
   {
@@ -87,7 +84,7 @@ $(document).ready(function(){
   level: 2,
   element: "Crystal",
   elementIndex: 1,
-  image: "",
+  image: "./images/Zimi_c2.png",
   thumbnail:  "./images/c2thumb.png",
   },
   {
@@ -95,7 +92,7 @@ $(document).ready(function(){
   level: 2,
   element: "Wind",
   elementIndex: 2,
-  image: "",
+  image:  "./images/Zimi_w2.png",
   thumbnail: "./images/w2thumb.png",
   },
   {
@@ -103,7 +100,7 @@ $(document).ready(function(){
   level: 2,
   element: "Poison",
   elementIndex: 3,
-  image: "",
+  image: "./images/Zimi_p2.png",
   thumbnail: "./images/p2thumb.png",
   },
   {
@@ -111,7 +108,7 @@ $(document).ready(function(){
   level: 2,
   element: "Magic",
   elementIndex: 4,
-  image: "",
+  image: "./images/Zimi_m2.png",
   thumbnail: "./images/m2thumb.png",
   },
   {
@@ -119,7 +116,7 @@ $(document).ready(function(){
   level: 3,
   element: "Crystal",
   elementIndex: 1,
-  image: "",
+  image: "./images/Zimi_c3.png",
   thumbnail:  "./images/c3thumb.png",
   },
   {
@@ -127,7 +124,7 @@ $(document).ready(function(){
   level: 3,
   element: "Wind",
   elementIndex: 2,
-  image: "",
+  image:  "./images/Zimi_w3.png",
   thumbnail: "./images/w3thumb.png",
   },
   {
@@ -135,7 +132,7 @@ $(document).ready(function(){
   level: 3,
   element: "Poison",
   elementIndex: 3,
-  image: "",
+  image: "./images/Zimi_p3.png",
   thumbnail: "./images/p3thumb.png",
   },
   {
@@ -143,7 +140,7 @@ $(document).ready(function(){
   level: 3,
   element: "Magic",
   elementIndex: 4,
-  image: "",
+  image: "./images/Zimi_m3.png",
   thumbnail: "./images/m3thumb.png",
   },
   {
@@ -151,7 +148,7 @@ $(document).ready(function(){
   level: 4,
   element: "Crystal",
   elementIndex: 1,
-  image: "",
+  image: "./images/Zimi_c4.png",
   thumbnail:  "./images/c4thumb.png",
   },
   {
@@ -159,7 +156,7 @@ $(document).ready(function(){
   level: 4,
   element: "Wind",
   elementIndex: 2,
-  image: "",
+  image:  "./images/Zimi_w4.png",
   thumbnail: "./images/w4thumb.png",
   },
   {
@@ -167,7 +164,7 @@ $(document).ready(function(){
   level: 4,
   element: "Poison",
   elementIndex: 3,
-  image: "",
+  image: "./images/Zimi_p4.png",
   thumbnail: "./images/p4thumb.png",
   },
   {
@@ -175,7 +172,7 @@ $(document).ready(function(){
   level: 4,
   element: "Magic",
   elementIndex: 4,
-  image: "",
+  image: "./images/Zimi_m4.png",
   thumbnail: "./images/m4thumb.png",
   },
   {
@@ -183,7 +180,7 @@ $(document).ready(function(){
   level: 5,
   element: "Crystal",
   elementIndex: 1,
-  image: "",
+  image: "./images/Zimi_c5.png",
   thumbnail: "./images/c5thumb.png",
   },
   {
@@ -191,7 +188,7 @@ $(document).ready(function(){
   level: 5,
   element: "Wind",
   elementIndex: 2,
-  image: "",
+  image:  "./images/Zimi_w5.png",
   thumbnail: "./images/w5thumb.png",
   },
   {
@@ -199,7 +196,7 @@ $(document).ready(function(){
   level: 5,
   element: "Poison",
   elementIndex: 3,
-  image: "",
+  image: "./images/Zimi_p5.png",
   thumbnail: "./images/p5thumb.png",
   },
   {
@@ -207,7 +204,7 @@ $(document).ready(function(){
   level: 5,
   element: "Magic",
   elementIndex: 4,
-  image: "",
+  image: "./images/Zimi_m5.png",
   thumbnail: "./images/m5thumb.png",
   },
   {
@@ -215,7 +212,7 @@ $(document).ready(function(){
   level: 6,
   element: "Crystal",
   elementIndex: 1,
-  image: "",
+  image: "./images/Zimi_c6.png",
   thumbnail: "./images/c6thumb.png",
   },
   {
@@ -223,7 +220,7 @@ $(document).ready(function(){
   level: 6,
   element: "Wind",
   elementIndex: 2,
-  image: "",
+  image:  "./images/Zimi_w6.png",
   thumbnail: "./images/w6thumb.png",
   },
   {
@@ -231,7 +228,7 @@ $(document).ready(function(){
   level: 6,
   element: "Poison",
   elementIndex: 3,
-  image: "",
+  image: "./images/Zimi_p6.png",
   thumbnail: "./images/p6thumb.png",
   },
   {
@@ -239,7 +236,7 @@ $(document).ready(function(){
   level: 6,
   element: "Magic",
   elementIndex: 4,
-  image: "",
+  image: "./images/Zimi_m6.png",
   thumbnail: "./images/m6thumb.png",
   },
   {
@@ -247,7 +244,7 @@ $(document).ready(function(){
   level: 7,
   element: "Crystal",
   elementIndex: 1,
-  image: "",
+  image: "./images/Zimi_c7.png",
   thumbnail:  "./images/c7thumb.png",
   },
   {
@@ -255,7 +252,7 @@ $(document).ready(function(){
   level: 7,
   element: "Wind",
   elementIndex: 2,
-  image: "",
+  image:  "./images/Zimi_w7.png",
   thumbnail: "./images/w7thumb.png",
   },
   {
@@ -263,7 +260,7 @@ $(document).ready(function(){
   level: 7,
   element: "Poison",
   elementIndex: 3,
-  image: "",
+  image: "./images/Zimi_p7.png",
   thumbnail: "./images/p7thumb.png",
   },
   {
@@ -271,7 +268,7 @@ $(document).ready(function(){
   level: 7,
   element: "Magic",
   elementIndex: 4,
-  image: "",
+  image: "./images/Zimi_m7.png",
   thumbnail: "./images/m7thumb.png",
   },
   {
@@ -279,7 +276,7 @@ $(document).ready(function(){
   level: 8,
   element: "Crystal",
   elementIndex: 1,
-  image: "",
+  image: "./images/Zimi_c8.png",
   thumbnail:  "./images/c8thumb.png",
   },
   {
@@ -287,7 +284,7 @@ $(document).ready(function(){
   level: 8,
   element: "Wind",
   elementIndex: 2,
-  image: "",
+  image:  "./images/Zimi_w8.png",
   thumbnail: "./images/w8thumb.png",
   },
   {
@@ -295,7 +292,7 @@ $(document).ready(function(){
   level: 8,
   element: "Poison",
   elementIndex: 3,
-  image: "",
+  image: "./images/Zimi_p8.png",
   thumbnail: "./images/p8thumb.png",
   },
   {
@@ -303,7 +300,7 @@ $(document).ready(function(){
   level: 8,
   element: "Magic",
   elementIndex: 4,
-  image: "",
+  image: "./images/Zimi_m8.png",
   thumbnail: "./images/m8thumb.png",
   },
   {
@@ -311,7 +308,7 @@ $(document).ready(function(){
   level: 9,
   element: "Crystal",
   elementIndex: 1,
-  image: "",
+  image: "./images/Zimi_c9.png",
   thumbnail:  "./images/c9thumb.png",
   },
   {
@@ -319,7 +316,7 @@ $(document).ready(function(){
   level: 9,
   element: "Wind",
   elementIndex: 2,
-  image: "",
+  image:  "./images/Zimi_w9.png",
   thumbnail: "./images/w9thumb.png",
   },
   {
@@ -327,7 +324,7 @@ $(document).ready(function(){
   level: 9,
   element: "Poison",
   elementIndex: 3,
-  image: "",
+  image: "./images/Zimi_p9.png",
   thumbnail: "./images/p9thumb.png",
   },
   {
@@ -335,7 +332,7 @@ $(document).ready(function(){
   level: 9,
   element: "Magic",
   elementIndex: 4,
-  image: "",
+  image: "./images/Zimi_m9.png",
   thumbnail: "./images/m9thumb.png",
   },
   {
@@ -343,7 +340,7 @@ $(document).ready(function(){
   level: 10,
   element: "Crystal",
   elementIndex: 1,
-  image: "",
+  image: "./images/Zimi_c10.png",
   thumbnail:  "./images/c10thumb.png",
   },
   {
@@ -351,7 +348,7 @@ $(document).ready(function(){
   level: 10,
   element: "Wind",
   elementIndex: 2,
-  image: "",
+  image: "./images/Zimi_w10.png",
   thumbnail: "./images/w10thumb.png",
   },
   {
@@ -359,7 +356,7 @@ $(document).ready(function(){
   level: 10,
   element: "Poison",
   elementIndex: 3,
-  image: "",
+  image: "./images/Zimi_p10.png",
   thumbnail: "./images/p10thumb.png",
   },
   {
@@ -367,7 +364,7 @@ $(document).ready(function(){
   level: 10,
   element: "Magic",
   elementIndex: 4,
-  image: "",
+  image: "./images/Zimi_m10.png",
   thumbnail: "./images/m10thumb.png",
   },
   {
@@ -375,7 +372,7 @@ $(document).ready(function(){
   level: 11,
   element: "Crystal",
   elementIndex: 1,
-  image: "",
+  image: "./images/Zimi_c11.png",
   thumbnail:  "./images/c11thumb.png",
   },
   {
@@ -383,7 +380,7 @@ $(document).ready(function(){
   level: 11,
   element: "Wind",
   elementIndex: 2,
-  image: "",
+  image: "./images/Zimi_w11.png",
   thumbnail: "./images/w11thumb.png",
   },
   {
@@ -391,7 +388,7 @@ $(document).ready(function(){
   level: 11,
   element: "Poison",
   elementIndex: 3,
-  image: "",
+  image: "./images/Zimi_p11.png",
   thumbnail: "./images/p11thumb.png",
   },
   {
@@ -399,7 +396,7 @@ $(document).ready(function(){
   level: 11,
   element: "Magic",
   elementIndex: 4,
-  image: "",
+  image: "./images/Zimi_m11.png",
   thumbnail: "./images/m11thumb.png",
   },
   {
@@ -407,7 +404,7 @@ $(document).ready(function(){
   level: 12,
   element: "Crystal",
   elementIndex: 1,
-  image: "",
+  image: "./images/Zimi_c12.png",
   thumbnail:  "./images/c12thumb.png",
   },
   {
@@ -415,7 +412,7 @@ $(document).ready(function(){
   level: 12,
   element: "Wind",
   elementIndex: 2,
-  image: "",
+  image: "./images/Zimi_w12.png",
   thumbnail: "./images/w12thumb.png",
   },
   {
@@ -423,7 +420,7 @@ $(document).ready(function(){
   level: 12,
   element: "Poison",
   elementIndex: 3,
-  image: "",
+  image: "./images/Zimi_p12.png",
   thumbnail: "./images/p12thumb.png",
   },
   {
@@ -431,7 +428,7 @@ $(document).ready(function(){
   level: 12,
   element: "Magic",
   elementIndex: 4,
-  image: "",
+  image: "./images/Zimi_m12.png",
   thumbnail: "./images/m12thumb.png",
   },
   {
@@ -439,7 +436,7 @@ $(document).ready(function(){
   level: 13,
   element: "Crystal",
   elementIndex: 1,
-  image: "",
+  image: "./images/Zimi_c13.png",
   thumbnail:  "./images/c13thumb.png",
   },
   {
@@ -447,7 +444,7 @@ $(document).ready(function(){
   level: 13,
   element: "Wind",
   elementIndex: 2,
-  image: "",
+  image: "./images/Zimi_w13.png",
   thumbnail: "./images/w13thumb.png",
   },
   {
@@ -455,7 +452,7 @@ $(document).ready(function(){
   level: 13,
   element: "Poison",
   elementIndex: 3,
-  image: "",
+  image: "./images/Zimi_p13.png",
   thumbnail: "./images/p13thumb.png",
   },
   {
@@ -463,7 +460,7 @@ $(document).ready(function(){
   level: 13,
   element: "Magic",
   elementIndex: 4,
-  image: "",
+  image: "./images/Zimi_m13.png",
   thumbnail: "./images/m13thumb.png",
   },
   ]
@@ -541,6 +538,7 @@ $(document).ready(function(){
       let selectedCard = activeDeck[this.id];
       build1.push(selectedCard);
       activeDeck[this.id] = {};
+      // selectedCard.setAttribute("data-build-index", this.id)
       mapCardsToDeckArea();
       mapCardsToBuildArea();
 
@@ -562,20 +560,22 @@ $(document).ready(function(){
   }
 
   //remove card from build
-  function cardFromBuildToDeck(){
-    $(".build-area").mousedown(function(){
-      let $index = $(".build-area-cards").data()
-      let selectedCard = build1[this.$index];
-      activeDeck.push(selectedCard);
-      build1[this.$index] = {};
-      mapCardsToDeckArea();
-      mapCardsToBuildArea();
+  //this isn't working because build are cards div gets destroyed
+  // function cardFromBuildToDeck(){
+  //   $(".build-area").mousedown(function(){
+  //     let $index = $(".build-area").data()
+  //     let selectedCard = build1[this.$index];
+  //     console.log(this)
+  //     activeDeck.push(selectedCard);
+  //     build1[this.$index] = {};
+  //     mapCardsToDeckArea();
+  //     mapCardsToBuildArea();
 
-      console.log(selectedCard);
-      // console.log(`function for activeDeck[${this.id}] called!`)
-    })
-  };
-  cardFromBuildToDeck();
+  //     console.log(selectedCard);
+  //     // console.log(`function for activeDeck[${this.id}] called!`)
+  //   })
+  // };
+  // cardFromBuildToDeck();
 
   //return entire build to deck
   function allBuildToDeck(){
@@ -590,6 +590,7 @@ $(document).ready(function(){
     // };
       mapCardsToBuildArea();
       mapCardsToDeckArea();
+      $(".build-area").html(`<div class = "build-area-label"><h2> </br> ${comboToBeatMessage}</h2></div><div class = "build-area-cards" id = "first" data-build-index = "1"> </div><div class = "build-area-cards" id = "second" data-build-index = "2"></div><div class = "build-area-cards" id = "third" data-build-index = "3"></div><div class = "build-area-cards" id = "fourth" data-build-index = "4">  </div>`);
   }
 
   //reset build deck
@@ -597,16 +598,17 @@ $(document).ready(function(){
     console.log("clearing build deck!")
     build1 = [];
     if (zimiSaid === true){
-      $(".build-area").html('<div class = "build-area-label"><h2> CLICK CARDS TO BUILD YOUR </br> 1, 2, 3, OR 5 </br>CARD HAND HERE</h2></div><div class = "build-area-cards" id = "first" data-build-index = "1"> </div><div class = "build-area-cards" id = "second" data-build-index = "2"></div><div class = "build-area-cards" id = "third" data-build-index = "3"></div><div class = "build-area-cards" id = "fourth" data-build-index = "4"></div><div class = "build-area-cards" id = "fifth" data-build-index = "5">  </div>')
+      $(".build-area").html('<div class = "build-area-label"><h2> CLICK CARDS TO BUILD YOUR </br> 1, 2, 3, OR 5 </br>CARD HAND HERE</h2></div><div class = "build-area-cards" id = "first" data-build-index = "1"> </div><div class = "build-area-cards" id = "second" data-build-index = "2"></div><div class = "build-area-cards" id = "third" data-build-index = "3"></div><div class = "build-area-cards" id = "fourth" data-build-index = "4"></div>')
     } else if (comboToBeat = undefined){
-    $(".build-area").html('<div class = "build-area-label"><h2> CLICK CARDS TO BUILD YOUR </br> 1, 2, 3, OR 5 </br>CARD HAND HERE</h2></div><div class = "build-area-cards" id = "first" data-build-index = "1"> </div><div class = "build-area-cards" id = "second" data-build-index = "2"></div><div class = "build-area-cards" id = "third" data-build-index = "3"></div><div class = "build-area-cards" id = "fourth" data-build-index = "4"></div><div class = "build-area-cards" id = "fifth" data-build-index = "5">  </div>')
+    $(".build-area").html('<div class = "build-area-label"><h2> CLICK CARDS TO BUILD YOUR </br> 1, 2, 3, OR 5 </br>CARD HAND HERE</h2></div><div class = "build-area-cards" id = "first" data-build-index = "1"> </div><div class = "build-area-cards" id = "second" data-build-index = "2"></div><div class = "build-area-cards" id = "third" data-build-index = "3"></div><div class = "build-area-cards" id = "fourth" data-build-index = "4"></div>')
     } else {
-    $(".build-area").html(`<div class = "build-area-label"><h2> ${comboToBeatMessage}</h2></div><div class = "build-area-cards" id = "first" data-build-index = "1"> </div><div class = "build-area-cards" id = "second" data-build-index = "2"></div><div class = "build-area-cards" id = "third" data-build-index = "3"></div><div class = "build-area-cards" id = "fourth" data-build-index = "4"></div><div class = "build-area-cards" id = "fifth" data-build-index = "5">  </div>`)
+    $(".build-area").html(`<div class = "build-area-label"><h2></br> ${comboToBeatMessage}</h2></div><div class = "build-area-cards" id = "first" data-build-index = "1"> </div><div class = "build-area-cards" id = "second" data-build-index = "2"></div><div class = "build-area-cards" id = "third" data-build-index = "3"></div><div class = "build-area-cards" id = "fourth" data-build-index = "4"></div>`)
     };
   }
   //map card divs to positions in array deck1
   function mapCardsToDeckArea(){
   for (i=0; i < activeDeck.length; i++){
+    // console.log(activeDeck[4]);
     $(`#${i}`).html(activeDeck[i].thumbnail ?  `<img src= ${activeDeck[i].thumbnail}>` : "");
     }
     $(".deck-title").html(`<h1> ${player} DECK <h1>`)
