@@ -2,12 +2,12 @@ console.log ("javascript is working!")
 //jQuery ready function
 $(document).ready(function(){
 
-  //TODO: ADD IN CARD IMAGES TO CARDS
-  //TODO: DISPLAY CARD IMAGES WHEN HAND IS PLAYED
-  //TODO: FIX BUILD AREA BACK TO DECK MECHANICS - BUILD BUTTON?
+
+  //TODO: GLITCH WHEN CARDS RESORT AND DUPLICATE CARDS DON'T GET CLEARED FROM DECK
   //TODO: FIX GLITCH WHERE PUTTING CARDS BACK IN DECK DOUBLES THEM UP
   //TODO: ADD TEXT EFFECTS
   //TODO: ANIMATE ZEPHYR
+  //make card animations into functions and put them in their own timeouts
   //TODO: USE BUILD AREA AS AREA TO DISPLAY MESSAGE OF WHAT PLAYER MUST DO NEXT
   //TODO: SOUND?
   //TODO: FIGURE OUT DRAG AND DROP CARDS
@@ -577,6 +577,14 @@ $(document).ready(function(){
   // };
   // cardFromBuildToDeck();
 
+  //clear deck images before putting in new cards to prevent glitch
+  //take everything after deck and replace with empty set
+  function clearDeckImages(){
+    for (i=activeDeck.length; i<17; i++) {
+      $(`#${i}`).html("")
+    }
+  };
+
   //return entire build to deck
   function allBuildToDeck(){
     // TODO: find more elegant solution
@@ -590,6 +598,7 @@ $(document).ready(function(){
     // };
       mapCardsToBuildArea();
       mapCardsToDeckArea();
+      clearDeckImages();
       $(".build-area").html(`<div class = "build-area-label"><h2> </br> ${comboToBeatMessage}</h2></div><div class = "build-area-cards" id = "first" data-build-index = "1"> </div><div class = "build-area-cards" id = "second" data-build-index = "2"></div><div class = "build-area-cards" id = "third" data-build-index = "3"></div><div class = "build-area-cards" id = "fourth" data-build-index = "4">  </div>`);
   }
 
@@ -613,6 +622,20 @@ $(document).ready(function(){
     }
     $(".deck-title").html(`<h1> ${player} DECK <h1>`)
   }
+
+  //setting card displays
+  let $oneCardImage = $('.one-card-image');
+  let $twoCardImageOne = $('.two-card-image_1');
+  let $twoCardImageTwo = $('.two-card-image_2');
+  let $threeCardImageOne = $('.three-card-image_1');
+  let $threeCardImageTwo = $('.three-card-image_2');
+  let $threeCardImageThree = $('.three-card-image_3');
+  let $fiveCardImageOne = $('.five-card-image_1');
+  let $fiveCardImageTwo = $('.five-card-image_2');
+  let $fiveCardImageThree = $('.five-card-image_3');
+  let $fiveCardImageFour = $('.five-card-image_4');
+  let $fiveCardImageFive = $('.five-card-image_5');
+
 
   //PART FOUR
   //POKER / BIG TWO SPECIFIC RULES FUNCTIONS
@@ -1585,6 +1608,19 @@ $(document).ready(function(){
     }
   }
 
+//setting Zephyr animation
+  let $zephyrImage = $('.Zephyr-image');
+  function zephyrCycleOne(){
+    $zephyrImage.attr("src", "./images/ZephyrPose3.png")
+  };
+  function zephyrCycleTwo(){
+    $zephyrImage.attr("src", "./images/ZephyrPose4.png")
+  };
+  function zephyrAnimation(){
+    setTimeout(zephyrCycleOne, 250);
+    setTimeout(zephyrCycleTwo, 500);
+  }
+
   //check if hand is valid
   function isHandValidCheck(array) {
     console.log("checking if hand is valid!")
@@ -1598,11 +1634,15 @@ $(document).ready(function(){
         if (doesHandMatchComboNumber(array) && doesHandMatchComboValue(array) === true) {
            setComboNumber = comboNumber;
            setComboValue = comboValue;
+           zephyrAnimation();
+           $oneCardImage.html(`<img src="${build1[0].image}">`);
            comboToBeatMessage = `Card to beat is </br> ${comboToBeat}!`;
            console.log(comboToBeatMessage);
         } else {
           alert("You have to play a higher value combination of the same number of cards your opponent played, or say Zimi!");
+          console.log(`activeDeck length before error return: ${activeDeck.length}`);
           allBuildToDeck();
+          console.log(`activeDeck length after error return: ${activeDeck.length}`);
           return;
         }
       break;
@@ -1611,11 +1651,16 @@ $(document).ready(function(){
         if (doesHandMatchComboNumber(array) && doesHandMatchComboValue(array) === true) {
            setComboNumber = comboNumber;
            setComboValue = comboValue;
+           zephyrAnimation();
+           $twoCardImageOne.html(`<img src="${build1[0].image}">`);
+           $twoCardImageTwo.html(`<img src="${build1[1].image}">`);
            comboToBeatMessage = `Combo to beat is </br> ${comboToBeat}!`;
            console.log(comboToBeatMessage);
           } else {
           alert("You have to play a higher value combination of the same number of cards your opponent played, or say Zimi!");
+          console.log(`activeDeck length before error return: ${activeDeck.length}`);
           allBuildToDeck();
+          console.log(`activeDeck length after error return: ${activeDeck.length}`);
           return;
         }
       break;
@@ -1624,34 +1669,52 @@ $(document).ready(function(){
         if (doesHandMatchComboNumber(array) && doesHandMatchComboValue(array) === true) {
            setComboNumber = comboNumber;
            setComboValue = comboValue;
+           zephyrAnimation();
+           $threeCardImageOne.html(`<img src="${build1[0].image}">`);
+           $threeCardImageTwo.html(`<img src="${build1[1].image}">`);
+           $threeCardImageThree.html(`<img src="${build1[2].image}">`);
            comboToBeatMessage = `Combo to beat is </br> ${comboToBeat}!`;
            console.log(comboToBeatMessage);
           } else {
           alert("You have to play a higher value combination of the same number of cards your opponent played, or say Zimi!");
+          console.log(`activeDeck length before error return: ${activeDeck.length}`);
           allBuildToDeck();
+          console.log(`activeDeck length after error return: ${activeDeck.length}`);
           return;
         }
       break;
       case 4:
         alert("Hands must be 1, 2, 3, or 5 cards!");
+          console.log(`activeDeck length before error return: ${activeDeck.length}`);
         allBuildToDeck();
+          console.log(`activeDeck length after error return: ${activeDeck.length}`);
+
       break;
       case 5:
         checkForStraight(array);
         if (doesHandMatchComboNumber(array) && doesHandMatchComboValue(array) === true) {
            setComboNumber = comboNumber;
            setComboValue = comboValue;
+           zephyrAnimation();
+           $fiveCardImageOne.html(`<img src="${build1[0].image}">`);
+           $fiveCardImageTwo.html(`<img src="${build1[1].image}">`);
+           $fiveCardImageThree.html(`<img src="${build1[2].image}">`);
+           $fiveCardImageFour.html(`<img src="${build1[3].image}">`);
+           $fiveCardImageFive.html(`<img src="${build1[4].image}">`);
            comboToBeatMessage = `Combo to beat is </br> ${comboToBeat}!`;
            console.log(comboToBeatMessage);
           } else {
           alert("You have to play a higher value combination of the same number of cards your opponent played, or say Zimi!");
+          console.log(`activeDeck length before error return: ${activeDeck.length}`);
           allBuildToDeck();
+          console.log(`activeDeck length after error return: ${activeDeck.length}`);
           return;
         }
       break;
       default:
         alert("This is the default!");
         allBuildToDeck();
+
         return;
     }
   }
@@ -1680,6 +1743,7 @@ $(document).ready(function(){
       winChecker++;
       }};
       if (winChecker === 0) {
+      $zephyrImage.html(`<img src = "./images/ZephyrPose1.png">`)
       alert("YOU WIN!");
       winState = true;
     } else {
@@ -1715,13 +1779,39 @@ $(document).ready(function(){
   comboToBeat = undefined;
   comboToBeatMessage = undefined;
   zimiSaid = true;
+  $oneCardImage.html(``);
+  $twoCardImageOne.html(``);
+  $twoCardImageTwo.html(``);
+  $threeCardImageOne.html(``);
+  $threeCardImageTwo.html(``);
+  $threeCardImageThree.html(``);
+  $fiveCardImageOne.html(``);
+  $fiveCardImageTwo.html(``);
+  $fiveCardImageThree.html(``);
+  $fiveCardImageFour.html(``);
+  $fiveCardImageFive.html(``);
+  $zephyrImage.html(`<img src = "./images/ZephyrPose2.png">`)
   allBuildToDeck();
   endTurn();
   })
   }
     sayZimi();
 
-
+  //back to deck button - stopgap solution
+  function backToDeckButton(){
+    $('button.back').click(function(){
+    console.log("Back to deck button pushed!");
+    allBuildToDeck();
+    // activeDeck.sort(compareByLevel);
+    // mapCardsToDeckArea();
+    if (comboToBeat !== undefined){
+    $(".build-area").html(`<div class = "build-area-label"><h2> </br> ${comboToBeatMessage}</h2></div><div class = "build-area-cards" id = "first" data-build-index = "1"> </div><div class = "build-area-cards" id = "second" data-build-index = "2"></div><div class = "build-area-cards" id = "third" data-build-index = "3"></div><div class = "build-area-cards" id = "fourth" data-build-index = "4">  </div>`);
+      } else {
+      $(".build-area").html('<div class = "build-area-label"><h2> CLICK CARDS TO BUILD YOUR </br> 1, 2, 3, OR 5 </br>CARD HAND HERE</h2></div><div class = "build-area-cards" id = "first" data-build-index = "1"> </div><div class = "build-area-cards" id = "second" data-build-index = "2"></div><div class = "build-area-cards" id = "third" data-build-index = "3"></div><div class = "build-area-cards" id = "fourth" data-build-index = "4"></div>')
+      }
+    })
+  };
+    backToDeckButton();
 
 
 
@@ -1740,7 +1830,7 @@ $(document).ready(function(){
   runOfTurn();
   // put run of turn into a function
   function runOfTurn(){
-    console.log(build1);
+    // console.log(build1);
 
   mapCardsToDeckArea();
 
